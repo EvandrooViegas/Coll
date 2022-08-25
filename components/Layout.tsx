@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import { modalContext } from '../context/ModalContext';
 import { popupContext } from '../context/PopupContext';
 import Popup from './Popup';
+import SideNavbar from './SideNavbar';
 
 
 interface IProps {
@@ -36,9 +37,17 @@ function Layout({children}: IProps) {
 
   return (
     <>
+      <div className='flex'>
+        <div>
+          <SideNavbar />
+        </div>
+            {/* <Navbar /> */}
+        <div className='w-[100%]'>
+          {children}
+        </div>
+      </div>
 
-        <Navbar />
-
+      <div>
         <div className='flex justify-center'>
           {popup.isOpen && (
             <Popup />
@@ -57,8 +66,9 @@ function Layout({children}: IProps) {
           {modal.element}
         </div>
       </Modal>
-        {children}
-        <Footer />
+
+      </div>
+        {/* <Footer /> */}
     </>
   )
 }

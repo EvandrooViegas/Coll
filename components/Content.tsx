@@ -8,7 +8,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Github from './Github';
 import axios from 'axios';
-import LinkPreview from './LinkPreview';
+
 
 
 interface IProps {
@@ -78,7 +78,7 @@ function Content({item}:IProps) {
 
         {contentType == "link" && (
             <>
-                <LinkPreview link={item.content} />
+           
                 {/* <LinkPreview url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width='400px' /> */}
                 <Link href={item.content}>
                     <div className='bg-neutral-200 p-3 text-indigo-400 rounded-sm shadow-sm hover:text-indigo-500 hover:cursor-pointer'>
