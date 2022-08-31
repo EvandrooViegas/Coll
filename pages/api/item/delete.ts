@@ -15,19 +15,17 @@ export default async function handler(
     if(req.method == "PUT") {
         const {id, collection} = req.body
         const filtredCollection = collection.items.filter((item:any) => item._key !== id)
-        console.log("collection: ", collection)
 
-
-        // try {
-        //         const result = await client
-        //         .patch(collection._id)
-        //         .set({
-        //         items: [...filtredCollection]
-        //         })
-        //         .commit();
-        //         res.status(200)
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        try {
+                const result = await client
+                .patch(collection._id)
+                .set({
+                items: [...filtredCollection]
+                })
+                .commit();
+                res.status(200)
+        } catch (error) {
+            console.log(error)
+        }
     }
 }

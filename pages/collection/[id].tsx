@@ -17,15 +17,17 @@ import { client } from '../../utils/sanityClient'
 
 import Collections from '../collections'
 import CreateItemModal from "../../components/CreateItemModal"
+import { collectionContext } from '../../context/CollectionContext'
 interface IProps {
     data: ICollections | any
 }
 function Collection({data}:IProps) {
     const {modal, setModal} = useContext(modalContext)
     const {setCollectionRef, collectionRef:collection} = useContext(collectionRefContext)
+    const {getSingleCollection} = useContext(collectionContext)
     const {data: session} = useSession()
     const user = session?.user
-    const createItem = () => {
+    const createItem = async () => {
       setModal({element: <CreateItemModal />, payload: collection, isOpen: true })
     }
     useEffect(() => {
@@ -60,7 +62,7 @@ function Collection({data}:IProps) {
                     <p className='text-gray-700'>{collection?.description}</p>
                 </div>
                 <div className='w-[70%]'>
-                    <img src={collection?.image} alt="" className='bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px] ' />
+                    <img src={collection?.image} alt="" className='bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px]' />
                     
                     <Reactions canLike={true} canComment={true} canAddCollection={true} />
                     {collection?.author?.email == user?.email && collection?.items && collection?.items.length > 0 &&
@@ -80,15 +82,15 @@ function Collection({data}:IProps) {
                         </div>
 
                         :
-                        <>
+                  
 
-                            {collection?.items?.map((item:IItems) => (
-                                <div key={item?._key}>
+                            collection?.items?.map((item:IItems) => (
+                                <div key={item?._key} className="my-[20px]">
                                     <Item item={item} />
                                 </div>
-                            ))}
+                            ))
                             
-                        </>
+                       
 
 
                         }

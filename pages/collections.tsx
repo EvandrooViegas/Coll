@@ -44,8 +44,9 @@ function Collections() {
 
        {loading ?
        <div className='block m-auto p-10'>
-         <ReactLoading type="spin" color="rgb(79 70 229)" height={50} width={50} />
-       </div> : 
+         <ReactLoading type="balls" color="rgb(79 70 229)" height={50} width={50} />
+       </div> 
+       : 
             <div className='flex flex-col items-center justify-center'>
                 {collections?.length > 0 ?
                 

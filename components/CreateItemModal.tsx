@@ -26,14 +26,15 @@ export default function Create() {
         const {collectionRef, setCollectionRef} = useContext(collectionRefContext)
         
         const handleSubmit = (e:React.SyntheticEvent) => {
-            console.log(collection)
+
             e.preventDefault()
             if(title) {
                 const haveItems:boolean = collection.items ? true : false 
                 const randomInt = Math.random() * 10000000000000
                 const _key = randomInt.toString()
                 const itemInfo = {_type: "item", author: user, text: title, description, content, _key, contentType}
-                console.log(itemInfo)
+             
+                
                 if(collection.items) {
                     const items = [itemInfo, ...collectionRef.items]
                     setCollectionRef({...collectionRef, items})

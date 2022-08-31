@@ -2,7 +2,6 @@ import React from 'react'
 import { IItems } from '../types/IItems'
 import Author from './Author'
 import Content from './Content';
-import isImage from "is-image"
 import Reactions from './Reactions';
 import { useSession } from 'next-auth/react';
 import { ICollections } from '../types/ICollections';
@@ -64,7 +63,7 @@ function Item({item, showReactions}:IProps) {
 
 
     return ( 
-      <div className='flex flex-col my-[15px] p-2 w-[120%] overflow-scroll'>
+      <div className='flex justify-start flex-col m-[15px] p-2 w-[120%]'>
         <Author author={item.author} showFallow={true} />
         <h1 className='font-semibold text-lg my-3'>{item.text}</h1>
         <p className='m-1'>{item.description}</p>

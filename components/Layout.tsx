@@ -36,14 +36,16 @@ function Layout({children}: IProps) {
   }
 
   return (
-    <>
-      <div className='flex'>
-        <div>
-          <SideNavbar />
-        </div>
-            {/* <Navbar /> */}
-        <div className='w-[100%]'>
-          {children}
+    <div className='width-[100vw] overflow-hidden'>
+      <div className='flex flex-col-reverse sm:flex-row'>
+        <div className='flex'>
+            <div>
+              <SideNavbar />
+            </div>
+
+            <div className='w-full sm md:m-[10vw]'>
+                {children}
+            </div>
         </div>
       </div>
 
@@ -53,23 +55,24 @@ function Layout({children}: IProps) {
             <Popup />
           )}
         </div>
-
-        <Modal
-          isOpen={modal.isOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-          id="transition-bottom-up"
-          className="text-black-rgba"
-        >
-        <div className="flex bg-white p-10 w-[100%] justify-center h-fit rounded-lg 'id='transition-bottom-up m-10 text-black">
-          {modal.element}
+        <div>
+          <Modal
+            isOpen={modal.isOpen}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+            id="transition-bottom-up"
+            className="text-black-rgba"
+          >
+          <div className="flex bg-white p-10 w-[100%] justify-center h-fit rounded-lg 'id='transition-bottom-up m-10 text-black">
+            {modal.element}
+          </div>
+          </Modal>
         </div>
-      </Modal>
 
       </div>
-        {/* <Footer /> */}
-    </>
+
+    </div>
   )
 }
 

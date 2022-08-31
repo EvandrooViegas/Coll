@@ -24,7 +24,7 @@ function Content({item}:IProps) {
         let repoName = item.content.split("/")[3]
 
         await axios.get(`https://api.github.com/users/${repoName}/repos`)
-        .then(res => setRepo(res.data))
+        .then((res:any) => setRepo(res.data))
     
     
     }
@@ -81,11 +81,7 @@ function Content({item}:IProps) {
             <>  
                 <LinkPreview url={item.content} />
                 {/* <LinkPreview url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width='400px' /> */}
-                <Link href={item.content}>
-                    <div className='bg-neutral-200 p-3 text-indigo-400 rounded-sm shadow-sm hover:text-indigo-500 hover:cursor-pointer'>
-                        {item.content}
-                    </div>
-                </Link>
+               
             </>
         )}
 

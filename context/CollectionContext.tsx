@@ -18,8 +18,9 @@ interface IProps {
 
 //get collections
 
-const getCollections = () => {
-
+const getCollections = async () => {
+    const res = await client.fetch(`*[_type == 'collection']`)
+    return res
 }
 
 const getUserCollections = async (author:IUser) => {
@@ -29,8 +30,9 @@ const getUserCollections = async (author:IUser) => {
     }
 }
 
-const getSingleCollection = () => {
-
+const getSingleCollection = async (id:string) => {
+    const res = await client.fetch(`*[_type == 'collection && _id == ${id} ']`)
+    return res
 }
 
 //add collection
