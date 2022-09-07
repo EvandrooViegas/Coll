@@ -21,9 +21,17 @@ function Layout({children}: IProps) {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      background: "rgba(0, 0, 0, 0.5)"
+      background: "rgba(0, 0, 0, 0.66)",
+      zIndex: "100"
     }, 
 
+    content: {
+      overflow: "scroll",
+      maxHeight: "80vh",
+      maxWidth: "90vw",
+      background: "white",
+      color: "black"
+    }
 
   };
   const {popup, setPopup} = useContext(popupContext)
@@ -36,17 +44,17 @@ function Layout({children}: IProps) {
   }
 
   return (
-    <div className='width-[100vw] overflow-hidden'>
+    <div className='width-[100vw]'>
       <div className='flex flex-col-reverse sm:flex-row'>
         <div className='flex'>
-            <div>
-              <SideNavbar />
-            </div>
 
-            <div className='w-full sm md:m-[10vw]'>
+              <SideNavbar />
+              <div className='flex justify-center m-10 p-2 min-w-[90vw] max-w-[98vw]'>
                 {children}
-            </div>
+              </div>
+     
         </div>
+        
       </div>
 
       <div>
@@ -55,6 +63,7 @@ function Layout({children}: IProps) {
             <Popup />
           )}
         </div>
+
         <div>
           <Modal
             isOpen={modal.isOpen}
@@ -64,9 +73,9 @@ function Layout({children}: IProps) {
             id="transition-bottom-up"
             className="text-black-rgba"
           >
-          <div className="flex bg-white p-10 w-[100%] justify-center h-fit rounded-lg 'id='transition-bottom-up m-10 text-black">
-            {modal.element}
-          </div>
+     
+                {modal.element}
+        
           </Modal>
         </div>
 

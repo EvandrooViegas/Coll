@@ -17,7 +17,7 @@ function SideNavbar() {
   return (
     // <div className='sticky top-0 bottom-0 flex h-[100vh] flex-col justify-between items-center border-[1px] border-gray-200 p-6'>
     <div>
-        <div className='fixed flex flex-row justify-around bg-white items-center border-[1.3px] border-gray-200 bottom-0 left-0 right-0 p-2 w-[100vw] md:h-[100vh] md:w-[8vw] md:flex md:flex-col md:justify-between'>
+        <div className='z-[100] fixed flex flex-row justify-around bg-white items-center border-[1.3px] border-gray-200 bottom-0 left-0 right-0 p-2 w-[100vw] md:h-[100vh] md:w-[8vw] md:flex md:flex-col md:justify-between'>
             <div className='hidden md:flex'>
                     <ActiveLink href="/">
                             <div className='font-semibold text-2xl md:mt-10'>

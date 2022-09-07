@@ -17,15 +17,16 @@ export default async function handler(
         const filtredCollection = collection.items.filter((item:any) => item._key !== id)
 
         try {
-                const result = await client
+                await client
                 .patch(collection._id)
                 .set({
                 items: [...filtredCollection]
                 })
                 .commit();
+                console.log("deleted")
                 res.status(200)
-        } catch (error) {
-            console.log(error)
+        } catch (error:any) {
+            console.log(error.message)
         }
     }
 }

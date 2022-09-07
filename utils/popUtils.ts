@@ -2,10 +2,12 @@ interface IPopTypes {
     error: string
     success: string
     alert: string
+    loadCollectionImage: string
 }
 
 export const popTypes:IPopTypes = {
     error: "error", 
     success: "success",
-    alert: "alert"
+    alert: "alert",
+    loadCollectionImage: "loadCollectionImage"
 }

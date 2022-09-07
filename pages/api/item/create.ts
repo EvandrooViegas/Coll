@@ -10,22 +10,20 @@ type Data = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-    if(req.method == "PUT") {
+    if(req.method == "POST") {
         const item = req.body.item
         const collection = req.body.collection
         const id = req.body.id
         const haveItems = req.body.haveItems  
-    
-    
-        console.log(item)
+
         try {
             if(haveItems) {
                 const result = await client
                 .patch(id)
                 .set({
-                items: [item, ...collection.items]
+                    items: [item, ...collection.items]
                 })
                 .commit();
                 res.status(200)
@@ -33,10 +31,10 @@ export default async function handler(
                 const result = await client
                 .patch(id)
                 .set({
-                items: [item]
+                    items: [item]
                 })
                 .commit();
-                res.status(200)
+                res.status(200).json({msg: "Item created"})
             }
         } catch (error) {
             console.log(error)

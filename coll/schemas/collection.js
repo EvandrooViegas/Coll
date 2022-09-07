@@ -45,6 +45,14 @@ export default {
                                     title: "Image",
                                     type: "string"
                                 },
+
+                                {
+                                    name: "uid",
+                                    title: "Uid",
+                                    type: "string"
+                                },
+
+                           
                             ],
                         },
                 

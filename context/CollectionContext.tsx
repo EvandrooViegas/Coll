@@ -31,8 +31,13 @@ const getUserCollections = async (author:IUser) => {
 }
 
 const getSingleCollection = async (id:string) => {
-    const res = await client.fetch(`*[_type == 'collection && _id == ${id} ']`)
-    return res
+    try {
+        const res = await client.fetch(`*[_type == 'collection' && _id == '${id}']`)
+        console.log("fetched")
+        return res[0]
+    } catch (error:any) {
+        console.log(error.message)
+    }
 }
 
 //add collection

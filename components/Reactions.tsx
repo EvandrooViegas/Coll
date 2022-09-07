@@ -1,20 +1,22 @@
 import Axios from 'axios'
 import { useSession } from 'next-auth/react'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
 import { BiBookmark, BiPencil } from 'react-icons/bi'
 import { FiHeart } from 'react-icons/fi'
 import { RiDeleteBin2Line, RiDeleteBinLine } from 'react-icons/ri'
 import { TbMessageCircle2 } from 'react-icons/tb'
+import { collectionContext } from '../context/CollectionContext'
 import { collectionRefContext } from '../context/CollectionRefContext'
+import { itemContext } from '../context/ItemContext'
 import { modalContext } from '../context/ModalContext'
 import { popupContext } from '../context/PopupContext'
 import { userCollectionRef } from '../context/UserCollectionsRef'
 import { ICollections } from '../types/ICollections'
 import { IItems } from '../types/IItems'
 import { popTypes } from '../utils/popUtils'
-import DeleteCollectionModal from './DeleteCollectionModal'
-import DeleteItemModal from './DeleteItemModal'
+import DeleteCollectionModal from './Modals/DeleteCollectionModal'
+import DeleteItemModal from './Modals/DeleteItemModal'
 
 interface IProps {
   canDelete?: boolean,
@@ -38,19 +40,31 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
     const user = session?.user
     const {userCollectionsRef, setUserCollectionsRef} = useContext(userCollectionRef)
     const {setPopup} = useContext(popupContext)
+    const {getSingleCollection} = useContext(collectionContext)
+    const [isLoading, setIsLoading] = useState(false)
+    const {deleteItem: deleteItemContext} = useContext(itemContext)
+
     async function deleteItem () {
-      const item = modal.payload
-      if(modal.res  && item) {
-        let filtredList:any = []
-        const id = item._key
-        collectionRef?.items?.map((item:IItems) => {
-          if(item._key != id) {
-            filtredList.push(item)
-          }
+      try {
+ 
+        const item:IItems = modal.payload
+        const id  = item._key
+
+        await deleteItemContext(id, collectionRef)
+
+        const res = await getSingleCollection(collectionRef._id)
+        setCollectionRef(res)
+        setIsLoading(false)
+        setModal({isOpen:false, element:<DeleteItemModal isLoading={false} />, payload: item})
+        setPopup({
+          isOpen: true,
+          type: popTypes.success,
+          text: "Item Deleted!",
         })
-        setCollectionRef({...collectionRef, items: filtredList})
-        await Axios.put("/api/item/delete", {id, collection: collectionRef})
+      } catch (error:any) {
+        console.log(error.message)
       }
+      
     }
 
     async function deleteCollection () {
@@ -81,6 +95,7 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
       }
 
       else if (modal.reach == "item") {
+        setModal({isOpen:true, element:<DeleteItemModal isLoading={true} />, payload: item})
         deleteItem()
       }
     }, [modal.res])
@@ -91,7 +106,7 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
       }
 
       if (reaction == "deleteItem") {
-        setModal({isOpen:true, element:<DeleteItemModal />, payload: item})
+        setModal({isOpen:true, element:<DeleteItemModal isLoading={false} />, payload: item})
       }
     }
   return (

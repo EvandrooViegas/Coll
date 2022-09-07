@@ -9,17 +9,28 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+* {
+  word-break: break-all;
+
+}
 
 .hide {
   display: hidden;
 }
 
+#popup {
+  animation: transition-bottom-up .1s ease-in; 
+}
+
 
 #transition-bottom-up {
   animation: transition-bottom-up .1s ease-in; 
-
 }
 
+
+#disabled-button:disabled:hover {
+    cursor:wait;
+}
 @keyframes transition-bottom-up {
   from {
     transform: translateY(100px);

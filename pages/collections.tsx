@@ -60,7 +60,7 @@ function Collections() {
                       {collections?.map((collection:ICollections) => {
             
                         return (
-                          <Collection collection={collection} key={collection._id} />
+                          <Collection setCollections={setCollections} collections={collections} collection={collection} key={collection._id} />
                         )
                       })}
                       

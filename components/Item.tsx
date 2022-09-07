@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IItems } from '../types/IItems'
 import Author from './Author'
 import Content from './Content';
@@ -10,6 +10,15 @@ interface IProps {
   showReactions?: boolean
 }
 function Item({item, showReactions}:IProps) {
+
+    var tempItem:IItems = 
+    {...item, 
+     text: item.text.length > 60 ? item.text.slice(0, 60) + "..." : item.text,
+     description:item.description.length > 120 ? item.description.slice(0, 120) + "..." : item.description 
+    }
+    item = tempItem
+
+
 
   if(showReactions == undefined) {
     showReactions = true
@@ -63,21 +72,23 @@ function Item({item, showReactions}:IProps) {
 
 
     return ( 
-      <div className='flex justify-start flex-col m-[15px] p-2 w-[120%]'>
+      <div className='flex items-start justify-start flex-col m-[15px] p-2 w-full'>
         <Author author={item.author} showFallow={true} />
         <h1 className='font-semibold text-lg my-3'>{item.text}</h1>
         <p className='m-1'>{item.description}</p>
         <div>
-          {item.content && (
-            <Content contentType={contentType} item={item} />
-          )}
+          <div>
+              {item.content && (
+               <Content contentType={contentType} item={item} />
+              )}
+          </div>
+  
+        </div>
           {user && item.author.email == user.email && showReactions &&
-            <div className='opacity-100 transition w-[10%]'> 
+            <div className='opacity-100 transition'> 
                 <Reactions canDelete={true} canUpdate={true} func="deleteItem" item={item}/>
             </div>
           }
-  
-        </div>
     </div> 
     )
   

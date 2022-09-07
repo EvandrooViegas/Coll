@@ -6,9 +6,9 @@ import { IItems } from '../types/IItems';
 import SpotifyPlayer from 'react-spotify-player';
 import Link from 'next/link';
 import Image from 'next/image';
-import Github from './Github';
+import Github from './ContentTypes/Github';
 import axios from 'axios';
-import LinkPreview from './LinkPreview';
+import LinkPreview from './ContentTypes/LinkPreview';
 
 
 
@@ -58,11 +58,13 @@ function Content({item}:IProps) {
   return (
     <div>
         {contentType == "youtube" && (
-            <YouTube videoId={videoId} opts={opts} />
+            <div>
+                <YouTube videoId={videoId} opts={opts} />
+            </div>
         )}
 
         {contentType == "spotify" && (
-            <>
+            <div>
                 <SpotifyPlayer
                 uri={item.content}
                 size={size}
@@ -70,23 +72,23 @@ function Content({item}:IProps) {
                 theme={theme}
                 />
              
-            </>
+            </div>
         )}
 
         {contentType == "img" && (
-            <img src={item.content} alt="" className='object-cover w-[100%] rounded-sm w-max[1400px] h-max[900px] ' />
+            <img src={item.content} alt="" className='object-cover rounded-sm w-max[90%] h-max[90%]' />
         )}
 
         {contentType == "link" && (
-            <>  
+            <div>  
                 <LinkPreview url={item.content} />
-                {/* <LinkPreview url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" width='400px' /> */}
-               
-            </>
+            </div>
         )}
 
         {contentType == "github" &&  (
-            <Github repo={repo} />
+            <div>
+                <Github repo={repo} />
+            </div>
         )}
     </div>
   )

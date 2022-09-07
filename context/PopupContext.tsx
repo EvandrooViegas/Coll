@@ -10,6 +10,7 @@ export const PopupContextProvider = ({children}:IProps) => {
         isOpen: false,
         type: "",
         text: "",
+        payload: null,
     })
 
     return (

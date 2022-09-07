@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { modalContext } from '../context/ModalContext'
-import { ICollections } from '../types/ICollections'
-import { IItems } from '../types/IItems'
-import Collection from './Collection'
-import Content from './Content'
-import Item from './Item'
+import { modalContext } from '../../context/ModalContext'
+import { ICollections } from '../../types/ICollections'
+import { IItems } from '../../types/IItems'
+import Collection from '../Collection'
+import Content from '../Content'
+import Item from '../Item'
 
 function DeleteCollectionModal() {
     const {modal, setModal} = useContext(modalContext)
