@@ -1,8 +1,7 @@
-import { useSession } from 'next-auth/react'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import React, { useContext, useState } from 'react'
-import { Context } from 'vm'
 import { ICollections } from '../types/ICollections'
 import { IItems } from '../types/IItems'
 import Collection from '../components/Collection'
@@ -11,6 +10,8 @@ import ReactLoading from 'react-loading';
 import { collectionContext } from '../context/CollectionContext'
 import { userCollectionRef } from '../context/UserCollectionsRef'
 import NotFound from '../components/NotFound'
+import useAuthStore from '../store/authStore'
+import { IUser } from '../types/IUser'
 
 
 interface IProps {
@@ -20,10 +21,9 @@ interface IProps {
 function Collections() {
 
   const [loading, setLoading] = useState<boolean>(false)
-  const {data: session} = useSession()
-  const user = session?.user
   const {getUserCollections, getUserRealtimeCollections} = useContext(collectionContext)
   const {userCollectionsRef:collections, setUserCollectionsRef: setCollections} = useContext(userCollectionRef)
+  const {user} = useAuthStore()
 
   useEffect(() => {
     const getAllCollections = async () => {
@@ -51,7 +51,7 @@ function Collections() {
                 {collections?.length > 0 ?
                 
                   <div className='flex flex-col items-center justify-center'>
-                    <h1 className='text-2xl font-semibold text-center m-4'>{user?.name}&apos;s Collections: </h1>
+                    <h1 className='text-2xl font-semibold text-center m-4'>{user?.username}&apos;s Collections: </h1>
                     <Link href="/create">
                         <button className='p-2 bg-indigo-500 transition duration-100 text-white w-fit m-auto my-4 rounded-sm hover:bg-indigo-600'>Add a new collection</button>
                     </Link>
@@ -60,7 +60,7 @@ function Collections() {
                       {collections?.map((collection:ICollections) => {
             
                         return (
-                          <Collection setCollections={setCollections} collections={collections} collection={collection} key={collection._id} />
+                          <Collection setCollections={setCollections} collections={collections} collection={collection} key={collection._id} showEdits={true} showReactions={false} />
                         )
                       })}
                       
@@ -73,7 +73,7 @@ function Collections() {
                   </div>
                 }
             </div>
-        }
+        } 
     </div>
   )
 }

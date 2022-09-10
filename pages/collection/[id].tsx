@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useSession } from 'next-auth/react'
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -23,6 +22,7 @@ import ReactLoading from 'react-loading';
 import { popupContext } from '../../context/PopupContext'
 import { popTypes } from '../../utils/popUtils'
 import { userContext } from '../../context/UserContext'
+import useAuthStore from '../../store/authStore'
 interface IProps {
     data: ICollections | null
 }
@@ -32,8 +32,8 @@ function Collection({data}:IProps) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
     const {addItem} = useContext(itemContext)
-    const {data: session} = useSession()
-    const {user} = useContext(userContext)
+    const {user} = useAuthStore()
+
     const {getSingleCollection} = useContext(collectionContext)
     const {setPopup} = useContext(popupContext)
     const fetchCollections = async () => {
@@ -97,7 +97,7 @@ function Collection({data}:IProps) {
  
 
   return (
-    <div className='flex flex-col justify-center md:m-14'>
+    <div className='flex flex-col m-6 justify-center md:m-14'>
 
             {collection &&
                 <div className='flex flex-col'>
@@ -111,7 +111,7 @@ function Collection({data}:IProps) {
                         <p className='text-gray-700'>{collection?.description}</p>
                     </div>
                     <div className='w-[70%]'>
-                        <img src={collection?.image} alt="" className='bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px]' />
+                        <img src={collection?.image} alt="" className='md:bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px] ' />
                         
                         <Reactions canLike={true} canComment={true} canAddCollection={true} />
                         {collection?.author?.email == user?.email && collection?.items && collection?.items.length > 0 &&

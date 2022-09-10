@@ -20,16 +20,19 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-image": "^4.0.3",
+    "react-jwt": "^1.1.6",
     "react-loading": "^2.0.3",
     "react-modal": "^3.15.1",
     "react-notion": "^0.10.0",
     "react-spotify-player": "^1.0.4",
     "react-youtube": "^9.0.3",
-    "sanity": "^2.29.3"
+    "sanity": "^2.29.3",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "18.7.3",
+    "@types/prismjs": "^1.26.0",
     "@types/random-gradient": "^0.0.0",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",

@@ -7,10 +7,11 @@ import { ItemContextProvider } from '../context/ItemContext'
 import { CollectionRefContextProvider } from '../context/CollectionRefContext'
 import ModalContextProvider, { modalContext } from '../context/ModalContext'
 import { useContext } from 'react'
-import { UserCollectionRefProvider } from '../context/UserCollectionsRef'
+
 import { PopupContextProvider } from '../context/PopupContext'
 import { UserContextProvider } from '../context/UserContext'
-import { UserRefContextProvider } from '../context/UserRefContext'
+
+import { UserCollectionRefProvider } from '../context/UserCollectionsRef'
 
 function MyApp({ Component, pageProps, session }: any) {
 
@@ -18,7 +19,6 @@ function MyApp({ Component, pageProps, session }: any) {
   return (
     <SessionProvider session={session}>
       <UserContextProvider>
-        <UserRefContextProvider>
           <CollectionRefContextProvider>
             <CollectionContextProvider>
               <UserCollectionRefProvider>
@@ -34,7 +34,6 @@ function MyApp({ Component, pageProps, session }: any) {
               </UserCollectionRefProvider>
             </CollectionContextProvider>
           </CollectionRefContextProvider>
-        </UserRefContextProvider>
       </UserContextProvider>
     </SessionProvider>
   )

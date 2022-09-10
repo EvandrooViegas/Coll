@@ -1,5 +1,4 @@
 import Axios from 'axios'
-import { useSession } from 'next-auth/react'
 import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
 import { BiBookmark, BiPencil } from 'react-icons/bi'
@@ -12,6 +11,7 @@ import { itemContext } from '../context/ItemContext'
 import { modalContext } from '../context/ModalContext'
 import { popupContext } from '../context/PopupContext'
 import { userCollectionRef } from '../context/UserCollectionsRef'
+import useAuthStore from '../store/authStore'
 import { ICollections } from '../types/ICollections'
 import { IItems } from '../types/IItems'
 import { popTypes } from '../utils/popUtils'
@@ -31,13 +31,12 @@ interface IProps {
 
 }
 function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment, collection, item, func}:IProps) {
-
+    
 
 
     const {collectionRef, setCollectionRef} = useContext(collectionRefContext)
     const {modal, setModal} = useContext(modalContext)
-    const {data: session} = useSession()
-    const user = session?.user
+    const {user} = useAuthStore()
     const {userCollectionsRef, setUserCollectionsRef} = useContext(userCollectionRef)
     const {setPopup} = useContext(popupContext)
     const {getSingleCollection} = useContext(collectionContext)

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useContext } from "react";
 import { IconBase } from "react-icons";
 import { ICollectionContext } from "../types/ICollectionContext";
@@ -25,15 +24,14 @@ const getCollections = async () => {
 
 const getUserCollections = async (author:IUser) => {
     if(author) {
-        const res = await client.fetch(`*[_type == 'collection' && author.email == '${author.email}']`);
+        const res = await client.fetch(`*[_type == 'collection' && author._id == '${author._id}']`);
         return res
     }
 }
 
 const getSingleCollection = async (id:string) => {
     try {
-        const res = await client.fetch(`*[_type == 'collection' && _id == '${id}']`)
-        console.log("fetched")
+        const res = await client.fetch(`*[_type == 'collection' && author._id == '${id}']`)
         return res[0]
     } catch (error:any) {
         console.log(error.message)

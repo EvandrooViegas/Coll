@@ -5,8 +5,7 @@ import createSchema from 'part:@sanity/base/schema-creator'
 import schemaTypes from 'all:part:@sanity/base/schema-type'
 
 import Collection from "./collection"
-import Fallowed from "./Fallowed"
-import Fallowing from "./Fallowing"
+import User from "./user"
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
   // We name our schema
@@ -14,8 +13,7 @@ export default createSchema({
 
   types: schemaTypes.concat([
     Collection,
-    Fallowing,
-    Fallowed
+    User
 
   ]),
 })

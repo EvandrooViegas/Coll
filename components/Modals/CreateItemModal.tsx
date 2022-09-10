@@ -1,5 +1,4 @@
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher"
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { itemContext } from "../../context/ItemContext"
@@ -90,7 +89,7 @@ export default function Create({createItem}:IProps) {
 
                             <p className='my-2 text-gray-500 self-start '>Content Type: </p>
                             
-                            <div className="flex justify-center gap-2 flex-wrap bg-gray-100 p-2 rounded-sm border-gray-200 border-[1px]">
+                            <div className="flex  justify-center gap-2 flex-wrap bg-gray-100 p-2 rounded-sm border-gray-200 border-[1px]">
                                 {contentTypes.map(content => (
                                     <ContentTypeItem key={content.id} content={content} selectedContent={selectedContent}>
                                         <div key={content.id} onClick={() => setSelectedContent(content)} className="flex flex-wrap text-sm justify-center items-center text-gray-800 gap-2">

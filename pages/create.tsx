@@ -1,19 +1,19 @@
-import { useSession } from 'next-auth/react'
+
 import React, { FormEvent, FormEventHandler, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { collectionContext } from '../context/CollectionContext'
 import { popupContext } from '../context/PopupContext'
 import { popTypes } from '../utils/popUtils'
 import { userContext } from '../context/UserContext'
+import useAuthStore from '../store/authStore'
 function Create() {
     const [title, setTitle] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [image, setImage] = useState<string>("")
     const [hashtags, setHashtags] = useState<string>("")
     const [isPrivate, setIsPrivate] = useState<any>()
-    const {data: session} = useSession()
+    const {user} = useAuthStore()
     const router = useRouter()
-    const {user} = useContext(userContext) 
     const {createCollection} = useContext(collectionContext)
     const {popup, setPopup} = useContext(popupContext)
     const [error, setError] = useState<string>("")

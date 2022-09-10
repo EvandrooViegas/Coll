@@ -5,6 +5,7 @@ import Content from './Content';
 import Reactions from './Reactions';
 import { useSession } from 'next-auth/react';
 import { ICollections } from '../types/ICollections';
+import useAuthStore from '../store/authStore';
 interface IProps {
   item: IItems
   showReactions?: boolean
@@ -23,8 +24,8 @@ function Item({item, showReactions}:IProps) {
   if(showReactions == undefined) {
     showReactions = true
   }
-  const {data: session} = useSession()
-  const user = session?.user
+
+  const {user} = useAuthStore()
   
   let isAImage:any
   const checkIsImage = async (url:string) =>

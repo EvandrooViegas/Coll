@@ -7,23 +7,14 @@ import { client } from '../../../utils/sanityClient';
 
 import { createClient } from 'next-sanity';
 import axios from 'axios';
-import puppeteer from "puppeteer";
+
 // Add this in node_modules/react-dom/index.js
 
 
 
 export default async function Handler(req:any, res:any) {
 
-    // const {url} = req.body
     if(req.method == "POST") {
-        // try {
-        //     const url = req.body.url
-        //     // const previewData = await linkPreviewGenerator(url)
-        //     // res.status(200).json(previewData)
-        // } catch (error) {
-            
-        //     console.log(error)  
-        // }
 
         try {
             let { url } = req.body

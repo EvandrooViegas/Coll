@@ -11,14 +11,13 @@ import axios from 'axios';
 import LinkPreview from './ContentTypes/LinkPreview';
 
 
-
 interface IProps {
     contentType: string
     item: IItems
 }
 function Content({item}:IProps) {
     const contentType = item.contentType
-   
+    
     const [repo, setRepo] = useState<any>()
     const getRepo = async () => {
         let repoName = item.content.split("/")[3]
@@ -32,7 +31,11 @@ function Content({item}:IProps) {
     const view = 'list'; // or 'coverart'
     const theme = 'black'; // or 'white'
     const videoUrl = item.content
-    const videoId = videoUrl.split("=")[1]
+    const videoId:string = videoUrl.split("=")[1]
+    console.log(videoId)
+    const videoLink  = "A"
+
+    console.log(videoId)
     const size = {
         width: '100%',
         height: 400,
@@ -45,6 +48,8 @@ function Content({item}:IProps) {
             autoplay: 0,
         },
     };
+
+ 
 
 
     useEffect(() => {
@@ -88,6 +93,12 @@ function Content({item}:IProps) {
         {contentType == "github" &&  (
             <div>
                 <Github repo={repo} />
+            </div>
+        )}
+
+        {contentType == "code" &&  (
+            <div>
+           
             </div>
         )}
     </div>

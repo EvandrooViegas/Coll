@@ -15,59 +15,55 @@ import { popupContext } from '../context/PopupContext'
 import { popTypes } from '../utils/popUtils'
 interface IProps {
     collection: ICollections
-    collections: ICollections[]
-    setCollections: any
-    showReactions?:boolean
+    collections?: ICollections[]
+    setCollections?: any
+    showReactions?:boolean,
+    showEdits?: boolean 
 }
-function Collection({collection, showReactions, setCollections, collections}:IProps) {
+function Collection({collection, showReactions, showEdits, setCollections, collections}:IProps) {
     const {setPopup} = useContext(popupContext)
     if(showReactions != false) {
         showReactions = true
     }
 
+    if(showReactions != true) {
+        showReactions = false
+    }
+
 
     return (
-        <div className='m-10'>
+        <div className='m-12 cursor-pointer' >
           
-            <div className='min-w-[300px] min-h-[200px]  max-w-[400px] max-h-[400px] border-[1px] shadow-sm rounded-lg p-2 transition cursor-pointer hover:bg-neutral-100'>
-                <Link href={`/collection/${collection._id}`}>
-                    <div className='flex flex-col justify-between'>
-                        <div className='self-center'>
-                 
-                            <img src={collection?.image} alt="" className="rounded-lg m-auto  my-3 shadow-lg object-cover" width={300} height={200}
-                                onError={() => {
-                                    
-                                    setPopup({
+            <Link href={`/collection/${collection._id}`}>
+                <div className='w-[100%] h-[100%] border-[1px] border-gray-300 pb-4' 
+                    style={{
+                        borderRadius: "14px 14px 14px 14px"
+                    }}
+                >
+                    <img src={collection.image}  className="object-cover w-full h-[55%]" 
+                    style={{
+                        borderRadius: "14px 14px 14px 14px"
+                    }} />
 
-                                        text:`Could not load the image! from collection: ${collection.text}`,
-                                        type: popTypes.loadCollectionImage,
-                                        isOpen: true,
-                                        payload: collection
-                        
-                                    })
+                    <div className='flex flex-col h-[45%] justify-between'>
+                        <div className='flex justify-center items-center flex-col m-4'>
+                            <h1 className='text-2xl font-semibold'>{collection.text}</h1>
+                            <p className='text-xl font-semibold text-gray-600'>{collection.description?.length! > 30 ? collection.description?.slice(0, 30) + "..." : collection?.description}</p>
+                        </div>
 
-                                    const tempList:ICollections[] = collections.filter((coll) => coll._id !== collection._id)
-                                    tempList.push({
-                                        ...collection,
-                                        image: "https://www.pixelstalk.net/wp-content/uploads/2016/10/Dark-Gray-Photos-Free-Download.png"
-                                    })
-       
-                                    setCollections(tempList)
-                                    
-                                }}
-                            
-                            /> 
-                        </div>
-                        <div className='w-[60%] m-auto border-b-[3px] border-b-gray-200 p-2'>
-                        </div>
-                        <h1 className='text-2xl font-semibold'>{collection.text}</h1>
-                        <p>{collection.description}</p>
+                        {showReactions &&
+                            <Reactions canLike={true} canAddCollection={true} canComment={true} />
+                        }
+
+                        {showEdits &&
+                            <Reactions canDelete={true} canUpdate={true} />
+                        }           
                     </div>
-                </Link>    
-                {showReactions &&
-                    <Reactions canDelete={true} canUpdate={true} collection={collection} func="deleteCollection" />
-                }
-            </div>
+
+
+
+                </div>
+            </Link>
         
         </div>
   )

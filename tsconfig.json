@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/LinkPreview.jsx", "pages/api/link/preview.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/LinkPreview.jsx", "pages/api/link/preview.js", "store/authStore.ts"],
   "exclude": ["node_modules"]
 }
