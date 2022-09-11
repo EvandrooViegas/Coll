@@ -45,19 +45,25 @@ function Collection({collection, showReactions, showEdits, setCollections, colle
                         borderRadius: "14px 14px 14px 14px"
                     }} />
 
-                    <div className='flex flex-col h-[45%] justify-between'>
+                    <div className='flex flex-col h-[45%] justify-evenly mt-2'>
                         <div className='flex justify-center items-center flex-col m-4'>
                             <h1 className='text-2xl font-semibold'>{collection.text}</h1>
                             <p className='text-xl font-semibold text-gray-600'>{collection.description?.length! > 30 ? collection.description?.slice(0, 30) + "..." : collection?.description}</p>
                         </div>
 
-                        {showReactions &&
-                            <Reactions canLike={true} canAddCollection={true} canComment={true} />
-                        }
+                        <div>
+                            {showReactions &&
+                                <Reactions canLike={true} canAddCollection={true} canComment={true} 
+                                    collection={collection}
+                                />
+                            }
 
-                        {showEdits &&
-                            <Reactions canDelete={true} canUpdate={true} />
-                        }           
+                            {showEdits &&
+                                <Reactions canDelete={true} canUpdate={true} 
+                                    collection={collection}
+                                />
+                            }      
+                        </div>         
                     </div>
 
 

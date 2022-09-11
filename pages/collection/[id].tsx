@@ -23,26 +23,28 @@ import { popupContext } from '../../context/PopupContext'
 import { popTypes } from '../../utils/popUtils'
 import { userContext } from '../../context/UserContext'
 import useAuthStore from '../../store/authStore'
+import { ILikes } from '../../types/ILikes'
 interface IProps {
     data: ICollections | null
 }
 function Collection({data}:IProps) {
+
     const {modal, setModal} = useContext(modalContext)
     const {setCollectionRef:setCollection, collectionRef:collection} = useContext(collectionRefContext)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
+
     const {addItem} = useContext(itemContext)
     const {user} = useAuthStore()
-
     const {getSingleCollection} = useContext(collectionContext)
     const {setPopup} = useContext(popupContext)
+
     const fetchCollections = async () => {
         const res = await getSingleCollection(collection._id)
         setCollection(res)
         setIsLoading(false)
-       
     }
-    
+
     const createItem = async (title:string, description:string, content:string, contentType:string) => {
 
    
@@ -80,14 +82,12 @@ function Collection({data}:IProps) {
             payload: collection, isOpen: true 
         })
     }
+
     useEffect(() => {
-        if(collection && collection == data) {
-            fetchCollections()
-        } else {
-            setCollection(data)
-    
-        }
+        setCollection(data)
     }, [])
+
+
 
     
 
@@ -110,10 +110,12 @@ function Collection({data}:IProps) {
                         <h1 className='font-semibold text-2xl'>{collection?.text}</h1>
                         <p className='text-gray-700'>{collection?.description}</p>
                     </div>
-                    <div className='w-[70%]'>
+                    <div className='w-[100%]'>
                         <img src={collection?.image} alt="" className='md:bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px] ' />
                         
-                        <Reactions canLike={true} canComment={true} canAddCollection={true} />
+                        <Reactions canLike={true} canComment={true} canAddCollection={true} 
+                            collection={collection}
+                        />
                         {collection?.author?.email == user?.email && collection?.items && collection?.items.length > 0 &&
     
                             <div className='flex items-center justify-center gap-3 flex-wrap border-t-[1px] border-gray-200 p-2'>
@@ -132,17 +134,11 @@ function Collection({data}:IProps) {
                             </div>
 
                             :
-                    
-
                                 collection?.items?.map((item:IItems) => (
                                     <div key={item?._key} className="my-[20px]">
                                         <Item item={item} />
                                     </div>
                                 ))
-                                
-                        
-
-
                             }
                         </div>
                     </div>

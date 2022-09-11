@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { useEffect } from 'react'
 import { BiBookmark, BiPencil } from 'react-icons/bi'
 import { FiHeart } from 'react-icons/fi'
@@ -14,6 +14,7 @@ import { userCollectionRef } from '../context/UserCollectionsRef'
 import useAuthStore from '../store/authStore'
 import { ICollections } from '../types/ICollections'
 import { IItems } from '../types/IItems'
+import { ILikes } from '../types/ILikes'
 import { popTypes } from '../utils/popUtils'
 import DeleteCollectionModal from './Modals/DeleteCollectionModal'
 import DeleteItemModal from './Modals/DeleteItemModal'
@@ -25,9 +26,8 @@ interface IProps {
   canAddCollection?: boolean,
   canComment?: boolean
   item?: any,
-  func?:string,
+  func?:any,
   collection?: ICollections,
-
 
 }
 function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment, collection, item, func}:IProps) {
@@ -35,31 +35,43 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
 
 
     const {collectionRef, setCollectionRef} = useContext(collectionRefContext)
+
     const {modal, setModal} = useContext(modalContext)
     const {user} = useAuthStore()
     const {userCollectionsRef, setUserCollectionsRef} = useContext(userCollectionRef)
     const {setPopup} = useContext(popupContext)
-    const {getSingleCollection} = useContext(collectionContext)
-    const [isLoading, setIsLoading] = useState(false)
+    const {getSingleCollection, likeCollection} = useContext(collectionContext)
     const {deleteItem: deleteItemContext} = useContext(itemContext)
+
+
+    const [isLoading, setIsLoading] = useState(false)
+    var [isLiking, setIsLiking] = useState(false)
+
+    const alreadyLiked = collection?.likes && collection?.likes?.filter((like:ILikes) => like.user == user?._id).length > 0
+
 
     async function deleteItem () {
       try {
- 
-        const item:IItems = modal.payload
+        setIsLoading(true)
+
+        const item = modal.payload
         const id  = item._key
 
-        await deleteItemContext(id, collectionRef)
+        setModal({isOpen:true, element:<DeleteItemModal isLoading={true} />, payload: item})
 
+        await deleteItemContext(id, collectionRef)
         const res = await getSingleCollection(collectionRef._id)
         setCollectionRef(res)
-        setIsLoading(false)
-        setModal({isOpen:false, element:<DeleteItemModal isLoading={false} />, payload: item})
+
+        setModal({isOpen:false})
+
         setPopup({
           isOpen: true,
           type: popTypes.success,
           text: "Item Deleted!",
         })
+        setIsLoading(false)
+
       } catch (error:any) {
         console.log(error.message)
       }
@@ -88,6 +100,33 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
       }
     }
 
+    
+    const handleLikes = async () => {
+
+      if(collectionRef) {
+
+        setIsLiking(true)
+        
+        if(alreadyLiked) {
+            await likeCollection(collectionRef._id, user, false, setCollectionRef,  collectionRef)
+          } else {
+            await likeCollection(collectionRef._id, user, true, setCollectionRef,  collectionRef)
+          }
+
+          setIsLiking(false)
+      }
+    }
+
+    const reactionFunc = async (reaction:string | undefined) => {
+      if(reaction == "deleteCollection") {
+        setModal({isOpen:true, element:<DeleteCollectionModal />, payload: collection})
+      }
+      
+      if (reaction == "deleteItem") {
+        setModal({isOpen:true, element:<DeleteItemModal isLoading={false} />, payload: item})
+      }
+    }
+    
     useEffect(() => {
       if(modal.reach == "collection") {
         deleteCollection()
@@ -99,20 +138,31 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
       }
     }, [modal.res])
 
-    const reactionFunc = async (reaction:string | undefined) => {
-      if(reaction == "deleteCollection") {
-        setModal({isOpen:true, element:<DeleteCollectionModal />, payload: collection})
-      }
 
-      if (reaction == "deleteItem") {
-        setModal({isOpen:true, element:<DeleteItemModal isLoading={false} />, payload: item})
-      }
-    }
+
   return (
     <div className='flex justify-around items-center my-5'>
         {canLike &&
-          <div className='cursor-pointer transition-all hover:bg-gray-200 rounded-full p-2 group'>
-            <FiHeart className='text-black group-hover:text-red-500' />
+          <div className='flex flex-col items-center cursor-pointer transition-all'
+            onClick={handleLikes}
+          
+          >
+            <div className={`${isLiking && "animate-spin"} hover:bg-gray-200 rounded-full p-2 group`}>
+              {alreadyLiked ?
+                <FiHeart className=' text-red-500' 
+                  
+                />
+                :
+                <FiHeart className='text-black group-hover:text-red-500' 
+
+                />
+              }
+            </div>
+            <span>
+              {collection?.likes?.length}
+            </span>
+
+   
           </div>
         }
 

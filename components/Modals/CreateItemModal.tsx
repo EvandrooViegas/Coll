@@ -34,7 +34,6 @@ export default function Create({createItem}:IProps) {
         )
 
         const handleSubmit = async (e:React.SyntheticEvent) => {
-            
             e.preventDefault()
             if(title) {
                 setIsLoading(true)

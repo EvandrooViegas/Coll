@@ -5,7 +5,6 @@ import { popTypes } from '../utils/popUtils'
 function Popup() {
     const {popup, setPopup} = useContext(popupContext)
     const {isOpen, type, text, payload} = popup
-    const dummyText = "Collection created. Refresh the page to see the updates"
 
     useEffect(() => {
         if(text) {
@@ -17,7 +16,7 @@ function Popup() {
 
 
   return (
-    <div className='fixed top-20 flex flex-col gap-2 z-[10] m-5 w-fit h-fit' id='popup'>
+    <div className='fixed top-20 flex flex-col gap-2 z-[200] m-5 w-fit h-fit' id='popup'>
 
         {type == popTypes.success && (
             <div className='flex gap-3 bg-green-600 p-2 text-white rounded-sm shadow-lg'>

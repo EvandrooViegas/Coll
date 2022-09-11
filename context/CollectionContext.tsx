@@ -5,9 +5,11 @@ import { ICollectionContext } from "../types/ICollectionContext";
 import { ICollections } from "../types/ICollections";
 import { IUser } from "../types/IUser";
 import { client } from "../utils/sanityClient";
+import { collectionRefContext } from "./CollectionRefContext";
 import { popupContext } from "./PopupContext";
 
 export const collectionContext = createContext<ICollectionContext | any>(null)
+
 
 interface IProps {
     children: React.ReactNode
@@ -31,7 +33,8 @@ const getUserCollections = async (author:IUser) => {
 
 const getSingleCollection = async (id:string) => {
     try {
-        const res = await client.fetch(`*[_type == 'collection' && author._id == '${id}']`)
+        const res = await client.fetch(`*[_type == 'collection' && _id == '${id}']`)
+
         return res[0]
     } catch (error:any) {
         console.log(error.message)
@@ -59,6 +62,42 @@ const updateCollection = () => {
 
 }
 
+const likeCollection = async (id:string, user:IUser, like:boolean, setCollection:any, collection:ICollections) => {
+
+
+    var res;
+
+    if(like) {
+        console.log("Like")
+        res = 
+        await client 
+        .patch(id)
+        .setIfMissing({likes : []})
+        .insert('after', 'likes[-1]', [
+            {
+                _key: Math.random() * 100000,
+                user: user._id
+            }
+        ])
+        .commit()
+        
+
+    } else {
+        console.log("Dislike")
+        res = 
+        await client 
+        .patch(id)
+        .unset([`likes[user=="${user._id}"]`])
+        .commit()
+    }
+
+
+    setCollection(res)
+    return res
+
+
+}
+
 const getUserRealtimeCollections = async (author:IUser) => {
      if(author) {
         const query = `*[_type == 'collection' && author.email == '${author.email}']`
@@ -72,10 +111,12 @@ const getUserRealtimeCollections = async (author:IUser) => {
         new Error("No user found")
      }
 }
+
 const CollectionContextProvider = ({children}:IProps) => {
+    
     return (
         <collectionContext.Provider
-        value={{getCollections, getUserCollections, getSingleCollection, createCollection, deleteCollection, updateCollection, getUserRealtimeCollections}}
+        value={{likeCollection, getCollections, getUserCollections, getSingleCollection, createCollection, deleteCollection, updateCollection, getUserRealtimeCollections}}
         >
             {children}
         </collectionContext.Provider>

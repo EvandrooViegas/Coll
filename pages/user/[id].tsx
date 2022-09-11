@@ -15,7 +15,6 @@ export default function UserDetails({data}:any) {
   const getCollections = async () => {
     if(showUserVideos) {
       const res = await getUserCollections(user)
-      console.log(res)
       setCollections(res)
     }
   }

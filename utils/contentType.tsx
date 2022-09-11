@@ -3,8 +3,6 @@ import {BiBlock, BiLink} from "react-icons/bi"
 import { BsGithub, BsImage } from 'react-icons/bs';
 import { AiFillYoutube } from 'react-icons/ai';
 import { TbBrandSpotify } from 'react-icons/tb';
-import { HiCode } from 'react-icons/hi';
-import {ImPinterest2 } from "react-icons/im"
 
 export const contentTypes:IContentType[] = [
     {
@@ -55,19 +53,5 @@ export const contentTypes:IContentType[] = [
         color: "green"
     },
 
-    {
-        value: "code",
-        id: Math.random() * 1000,
-        name: "Code",
-        icon: <HiCode/>,
-        color: "green"
-    },
 
-    {
-        value: "pinterest",
-        id: Math.random() * 1000,
-        name: "pinterest",
-        icon: <ImPinterest2 />,
-        color: "green"
-    },
 ]

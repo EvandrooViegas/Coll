@@ -53,31 +53,31 @@ function Layout({children}: IProps) {
       
         <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 md:left-[8%]'>
           {children}
-        </div>
+          <div>
+            <div className='flex justify-center'>
+              {popup.isOpen && (
+                <Popup />
+              )}
+            </div>
 
-      <div>
-        <div className='flex justify-center'>
-          {popup.isOpen && (
-            <Popup />
-          )}
-        </div>
-
-        <div>
-          <Modal
-            isOpen={modal.isOpen}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-            id="transition-bottom-up"
-            className="text-black-rgba"
-          >
-     
-                {modal.element}
+            <div>
+              <Modal
+                isOpen={modal.isOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+                id="transition-bottom-up"
+                className="text-black-rgba"
+              >
         
-          </Modal>
+                    {modal.element}
+            
+              </Modal>
+            </div>
+
+          </div>
         </div>
 
-      </div>
 
     </div>
   )

@@ -32,10 +32,7 @@ function Content({item}:IProps) {
     const theme = 'black'; // or 'white'
     const videoUrl = item.content
     const videoId:string = videoUrl.split("=")[1]
-    console.log(videoId)
-    const videoLink  = "A"
 
-    console.log(videoId)
     const size = {
         width: '100%',
         height: 400,
@@ -96,11 +93,7 @@ function Content({item}:IProps) {
             </div>
         )}
 
-        {contentType == "code" &&  (
-            <div>
-           
-            </div>
-        )}
+
     </div>
   )
 }
