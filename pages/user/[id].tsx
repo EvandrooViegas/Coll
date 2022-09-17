@@ -27,7 +27,7 @@ export default function UserDetails({data}:any) {
       <div className='w-full m-7'>
         <div className='flex flex-col gap-5 items-center md:flex-row'> 
           <div className='flex items-center gap-6'> 
-            <img src={user.image} className="rounded-full w-[130px] h-[130px]" />
+            <img src={user.image} className="object-cover rounded-full w-[130px] h-[130px]" />
             <div className='flex flex-col'>
               <span className='font-semibold'>{user.username?.toLocaleUpperCase()}</span>
               <span className='font-semibold text-gray-600'>{user.email?.toLocaleLowerCase()}</span>
@@ -91,7 +91,7 @@ export default function UserDetails({data}:any) {
           <div className='flex justify-center h-full'>
             <div className='h-full flex flex-wrap'>
               {collections?.map((coll:ICollections) => (
-                <Collection key={coll._id} collection={coll}  />
+                <Collection key={coll._id} collection={coll} showReactions={false} />
               ))}
             </div>
           </div>

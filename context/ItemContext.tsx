@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { createContext, ReactNode } from "react";
 import { ICollections } from "../types/ICollections";
+import { IItems } from "../types/IItems";
 import { client } from "../utils/sanityClient";
 
 export const itemContext = createContext<any>(null)
@@ -65,7 +66,26 @@ const deleteItem = async (id:string, collection:ICollections) => {
 }
 
 //update collection
-const updateItem = () => {
+const updateItem = async (newItem:IItems, collection:ICollections) => {
+
+    const tempList:IItems[] = []
+    console.log(newItem)
+    collection.items?.map(i => {
+        if(i._key == newItem._key){
+            i = newItem
+        }
+        tempList.push(i)
+
+    })
+
+    await client
+    .patch(collection._id)
+    .set({
+        ...collection,
+        items: tempList
+    })
+    .commit()
+    .then((res) => console.log(res))
 
 }
 

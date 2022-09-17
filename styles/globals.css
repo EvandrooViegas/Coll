@@ -11,7 +11,7 @@ body {
 }
 * {
   word-break: break-all;
-
+  outline: none;
 }
 
 .hide {
@@ -27,6 +27,9 @@ body {
   animation: transition-bottom-up .1s ease-in; 
 }
 
+#transition-left-right {
+  animation: transition-left-right .1s ease-in; 
+}
 
 #disabled-button:disabled:hover {
     cursor:wait;
@@ -38,6 +41,16 @@ body {
 
   to {
     transform: translateY(0px);
+  }
+}
+
+@keyframes transition-left-right {
+  from {
+    left: -10%;
+  } 
+
+  to {
+    left:0
   }
 }
 

@@ -20,12 +20,10 @@ function NotFound({type}:IProps) {
             <div className='flex flex-col w-fit text-2xl'>
                 <FaPoo className='self-center text-amber-900'/>
                 <div>
-                    No Collections!
+                    No Collections Found!
                 </div>
 
-                <Link href="/create">
-                    <button className='p-2 bg-indigo-500 transition duration-100 text-white w-fit m-auto my-4 rounded-sm hover:bg-indigo-600'>Add collection</button>
-                </Link>
+                
             </div>
         }
     </div>

@@ -11,8 +11,10 @@ function Github({repo:repoList}:IProps) {
 
 
   return (
-    <div className='flex flex-col items-center bg-neutral-900 rounded-lg px-[15px] h-[500px] w-full shadow-lg overflow-scroll overflow-x-hidden'>
-        {repoList?.map((rep:IRepo) => (
+    <div className='flex flex-col items-center bg-neutral-900 rounded-lg px-[15px] p-4 max-h-[500px] w-full shadow-lg overflow-scroll overflow-x-hidden'>
+        {
+        repoList?.length > 0 ?
+        repoList?.map((rep:IRepo) => (
             <div key={Math.random() * 10000} className="flex flex-col w-[90%] gap-1 bg-neutral-800 text-white p-3 my-2 rounded-lg shadow-lg sm:w-[400px]">
                 <div className='flex items-center justify-between'>
                     <Image src={`https://res.cloudinary.com/demo/image/fetch/${rep.owner.avatar_url}`} width={30} height={30} className="flex hidden rounded-full md:hidden" />
@@ -29,7 +31,10 @@ function Github({repo:repoList}:IProps) {
                 </div>
              
             </div>
-        ))}
+        ))
+            :
+            <h1 className='text-white'>😥 Invalid Url</h1>
+    }
     </div>
   )
 }

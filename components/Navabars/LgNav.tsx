@@ -45,15 +45,16 @@ function LgNav() {
         <div className='full  p-0'>
                 {user ?
            
-                    <div className='flex flex-col  items-center bg-neutral-100 absolute bottom-0 left-0 right-0 p-4'
+                    <Link href={`/user/${user._id}`}>
                     
+                    <div className='cursor-pointer flex flex-col  items-center bg-neutral-100 absolute bottom-0 left-0 right-0 p-4'
                         style={{
                             borderRadius: "25px 25px 0 0"
                         }}
                     >
-                    
+                
                         <img className='rounded-full object-cover w-11 h-11' src={user.image} alt="profile" />
-             
+            
                         <div className='flex flex-col text-sm'>
                             <span className='font-semibold text-gray-800'>@{user.username?.trim().toLocaleLowerCase()}</span>
                         </div>
@@ -63,7 +64,8 @@ function LgNav() {
                                 <MdLogout />
                             </button>
                         </div>
-                    </div> 
+                    </div>
+                    </Link> 
                     : 
                
                     

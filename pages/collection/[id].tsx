@@ -24,6 +24,7 @@ import { popTypes } from '../../utils/popUtils'
 import { userContext } from '../../context/UserContext'
 import useAuthStore from '../../store/authStore'
 import { ILikes } from '../../types/ILikes'
+import { MdExpandMore, MdOutlineExpandLess } from 'react-icons/md'
 interface IProps {
     data: ICollections | null
 }
@@ -38,6 +39,8 @@ function Collection({data}:IProps) {
     const {user} = useAuthStore()
     const {getSingleCollection} = useContext(collectionContext)
     const {setPopup} = useContext(popupContext)
+    const [showInfo, setShowInfo] = useState<boolean>(false)
+
 
     const fetchCollections = async () => {
         const res = await getSingleCollection(collection._id)
@@ -88,12 +91,8 @@ function Collection({data}:IProps) {
     }, [])
 
 
-
     
-
-
-
-
+    
  
 
   return (
@@ -109,9 +108,48 @@ function Collection({data}:IProps) {
                     
                         <h1 className='font-semibold text-2xl'>{collection?.text}</h1>
                         <p className='text-gray-700'>{collection?.description}</p>
+                        <div>
+                            <span 
+                            className='cursor-pointer'
+                            onClick={() => {
+                                setShowInfo(!showInfo)
+                            }}>
+                                {!showInfo ?
+                                    <MdExpandMore /> :
+                                    <MdOutlineExpandLess />
+                                }   
+                            </span>
+                            {showInfo &&
+                                <div className='transition'>
+                                    <div className="flex flex-col">
+                                        <div>
+                                            <span className='font-semibold'>Hashtags: </span>
+                                            {collection?.hashtags?.map((h:string) => (  
+                                                    <Link  key={Math.random() * 1000} href={`/hashtags/${h}`}>
+                                                        <span
+                                                        className="cursor-pointer hover:text-indigo-500 ml-2"
+                                                        >
+                                                        #{h} 
+                                                    </span> 
+                                                    </Link>       
+                                                )
+                                            )}
+                                        </div>
+
+                                        <span className='font-semibold'>
+                                            Created At:  
+                                            <span className='ml-1 font-normal'>
+                                                {collection._createdAt}
+                                            </span>
+                                        </span>
+                                 
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                     <div className='w-[100%]'>
-                        <img src={collection?.image} alt="" className='md:bg-black object-cover w-[1000px] rounded-sm w-max[1400px] h-max[900px] ' />
+                        <img src={collection?.image} alt="" className='md:bg-black object-cover rounded-sm w-screen h-[50vh]' />
                         
                         <Reactions canLike={true} canComment={true} canAddCollection={true} 
                             collection={collection}
@@ -119,7 +157,9 @@ function Collection({data}:IProps) {
                         {collection?.author?.email == user?.email && collection?.items && collection?.items.length > 0 &&
     
                             <div className='flex items-center justify-center gap-3 flex-wrap border-t-[1px] border-gray-200 p-2'>
-                                <button onClick={handleSubmit} className='p-2 mt-5 bg-indigo-600 rounded-sm shadow-sm text-white hover:bg-indigo-700 hover:shadow-md'>Add a new Item</button>
+                                <button onClick={handleSubmit} className='p-2 mt-5 bg-indigo-600 rounded-sm shadow-sm text-white hover:bg-indigo-700 hover:shadow-md'>
+                                    Add a new Item
+                                </button>
                             </div>
                         
                         }

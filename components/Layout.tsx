@@ -26,11 +26,13 @@ function Layout({children}: IProps) {
     }, 
 
     content: {
+
       overflow: "scroll",
       maxHeight: "80vh",
       maxWidth: "90vw",
       background: "white",
-      color: "black"
+      color: "black",
+
     }
 
   };
@@ -51,7 +53,7 @@ function Layout({children}: IProps) {
         </div>
   
       
-        <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 md:left-[8%]'>
+        <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 h-[93vh] md:left-[8%] md:h-screen'>
           {children}
           <div>
             <div className='flex justify-center'>
@@ -60,7 +62,7 @@ function Layout({children}: IProps) {
               )}
             </div>
 
-            <div>
+            <div className='bg-transparent'>
               <Modal
                 isOpen={modal.isOpen}
                 onRequestClose={closeModal}

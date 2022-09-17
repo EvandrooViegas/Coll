@@ -16,8 +16,11 @@ import { ICollections } from '../types/ICollections'
 import { IItems } from '../types/IItems'
 import { ILikes } from '../types/ILikes'
 import { popTypes } from '../utils/popUtils'
+import CommentModal from './Modals/CommentModal'
 import DeleteCollectionModal from './Modals/DeleteCollectionModal'
 import DeleteItemModal from './Modals/DeleteItemModal'
+import EditCollectionModal from './Modals/EditCollectionModal'
+import EditItemModal from './Modals/EditItemModal'
 
 interface IProps {
   canDelete?: boolean,
@@ -28,9 +31,10 @@ interface IProps {
   item?: any,
   func?:any,
   collection?: ICollections,
+  setCollections?: any
 
 }
-function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment, collection, item, func}:IProps) {
+function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment, collection, item, func, setCollections}:IProps) {
     
 
 
@@ -40,7 +44,7 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
     const {user} = useAuthStore()
     const {userCollectionsRef, setUserCollectionsRef} = useContext(userCollectionRef)
     const {setPopup} = useContext(popupContext)
-    const {getSingleCollection, likeCollection} = useContext(collectionContext)
+    const {getSingleCollection, likeCollection, deleteCollection: deleteCollectionRef, getUserCollections} = useContext(collectionContext)
     const {deleteItem: deleteItemContext} = useContext(itemContext)
 
 
@@ -79,23 +83,15 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
     }
 
     async function deleteCollection () {
-      const author = user
+
       
       if(modal.res && collection) {
-        const collection = modal.payload 
-        let collections:ICollections[] | null = userCollectionsRef
-        let filtredList:any = []
-        const id = collection._id
-        
-        collections?.map((coll:ICollections) => {
-          if(coll._id != id) {
-            filtredList.push(coll)
-          }
-        })
-        
-        setUserCollectionsRef([...filtredList])
+        const collection:ICollections = modal.payload 
+        await deleteCollectionRef(collection._id)
+        const res = await getUserCollections(user)
+    
+        setUserCollectionsRef(res)
         setPopup({isOpen: true, type: popTypes.success, text: "Collection Removed!"})
-        Axios.post("/api/collection/delete", {id: collection._id})
 
       }
     }
@@ -174,9 +170,28 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
         }
 
         {canComment &&
-          <div className='cursor-pointer transition-all hover:bg-gray-200 rounded-full p-2 group'>
-            <TbMessageCircle2 className='text-black group-hover:text-blue-500' />
+            <div className='flex flex-col items-center cursor-pointer transition-all'
+            onClick={() => {
+                  setModal({
+                    isOpen: true,
+                    element: <CommentModal collection={collectionRef} />
+                  })
+                }}
+          
+            >
+            <div className="hover:bg-gray-200 rounded-full p-2 group">
+      
+                <TbMessageCircle2 className='text-black group-hover:text-blue-500 ' />
+        
+
+            </div>
+            <span>
+              {collection?.comments?.length}
+            </span>
+
+
           </div>
+
         }
 
         {canDelete &&
@@ -186,7 +201,31 @@ function Reactions({ canDelete, canUpdate, canLike, canAddCollection, canComment
         }
 
       {canUpdate &&
-          <div className='cursor-pointer transition-all hover:bg-gray-200 rounded-full p-2 group'>
+          <div className='cursor-pointer transition-all hover:bg-gray-200 rounded-full p-2 group'
+            onClick={() => {
+              if(collection) {
+
+                setModal({
+                  isOpen: true,
+                  element: <EditCollectionModal 
+                    collection={collection}
+                    setCollections={setCollections}
+                  />
+                })
+              }
+
+              else if(item) {
+                setModal({
+                  isOpen: true,
+                  element: <EditItemModal 
+                    item={item}
+                    setCollectionRef={setCollectionRef}
+                  />
+                })
+              }
+            }
+          }
+          >
             <BiPencil className='text-black group-hover:text-blue-700' />
           </div>
         }
