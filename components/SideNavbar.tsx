@@ -33,7 +33,7 @@ function SideNavbar() {
 
     <div>
 
-        <div className='z-[100] h-[7vh] fixed flex flex-row justify-around bg-white items-center 
+        <div className='h-[7vh] fixed flex flex-row justify-around bg-white items-center 
         border-[1.3px] border-gray-200 bottom-0 left-0 right-0 p-2 w-[100vw] md:z-[100] md:h-[100vh]
          md:w-[13vw] md:flex md:flex-col md:justify-between'>
         <div>

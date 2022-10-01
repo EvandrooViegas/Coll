@@ -26,7 +26,7 @@ function LgNav() {
     const collectionPath = `${BASE_URL}/collection/${collectionRef?._id}`
     const isOnCollection = collectionRef && currentCollection == collectionPath
   return (
-    <div className='flex flex-col justify-between h-[100vh] p-3'>
+    <div className='flex flex-col justify-between h-[100vh] p-3 bg-white'>
 
         <div className='flex flex-col items-center justify-center'>
             <Link href={"/"}>

@@ -53,7 +53,7 @@ function Layout({children, showNavbar}: IProps) {
     <div className='flex'>
    
         {showNavbar &&
-          <div className='z-[101] md:z-[100]'>
+          <div className='z-[101] md:z-[101]'>
             <SideNavbar /> 
           </div>
         }
