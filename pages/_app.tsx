@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps, session }: any) {
  
   ]
     console.log(!noNavbarPages.includes(currentPage))
-
+    console.log(router.pathname)
     return (
       <SessionProvider session={session}>
         <PopupContextProvider>

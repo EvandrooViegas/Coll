@@ -44,6 +44,7 @@ function Layout({children, showNavbar}: IProps) {
     showNavbar = false
   }
   
+  console.log(showNavbar)
 
   function closeModal() {
     setModal({isOpen: false});
