@@ -7,6 +7,7 @@ import { IComment } from "../types/IComment";
 import { IItems } from "../types/IItems";
 import { IUser } from "../types/IUser";
 import { client } from "../utils/sanityClient";
+
 import { collectionRefContext } from "./CollectionRefContext";
 import { popupContext } from "./PopupContext";
 
@@ -253,8 +254,7 @@ const initialValue = {
                 favoriteCollections: tempList
             })
             .commit()
-            .then(res => console.log(res))
-            .catch(res => console.log(res))
+          
 
 
         } else {

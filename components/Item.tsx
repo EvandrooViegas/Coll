@@ -6,6 +6,7 @@ import Reactions from './Reactions/Reactions';
 import { useSession } from 'next-auth/react';
 import { ICollections } from '../types/ICollections';
 import useAuthStore from '../store/authStore';
+
 interface IProps {
   item: IItems
   collection?:ICollections

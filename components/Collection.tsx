@@ -12,7 +12,7 @@ import Item from './Item'
 import gradient from 'random-gradient'
 import { collectionRefContext } from '../context/CollectionRefContext'
 import { popupContext } from '../context/PopupContext'
-import { popTypes } from '../utils/popUtils'
+
 import { collectionContext } from '../context/CollectionContext'
 import CollectionErrorImage from './CollectionErrorImage'
 import { ImageError } from 'next/dist/server/image-optimizer'

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React, { useContext, useEffect } from 'react'
 import { popupContext } from '../context/PopupContext'
 import { popTypes } from '../utils/popUtils'
+
 function Popup() {
     const {popup, setPopup} = useContext(popupContext)
     const {isOpen, type, text, payload} = popup

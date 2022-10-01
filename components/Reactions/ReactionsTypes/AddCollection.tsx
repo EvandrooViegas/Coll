@@ -4,10 +4,11 @@ import { collectionContext } from '../../../context/CollectionContext'
 import { collectionRefContext } from '../../../context/CollectionRefContext'
 import { popupContext } from '../../../context/PopupContext'
 import useAuthStore from '../../../store/authStore'
+
 import { ICollections } from '../../../types/ICollections'
 import { IUser } from '../../../types/IUser'
-import { popTypes } from '../../../utils/popUtils'
 import { client } from '../../../utils/sanityClient'
+
 
 type Props = {
 
@@ -42,10 +43,10 @@ function AddCollection({collection, setCollection}: Props) {
     setIsAddingCollection(true)
     
     await addOrRemoveFavoriteCollection(collection?._id!, user!)
-    console.log("Passou aqui 1")
+
     
     await getAlreadyAddedCollection()
-    console.log("Passou aqui 2")
+
 
     setIsAddingCollection(false)
   }
