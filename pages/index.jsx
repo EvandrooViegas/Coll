@@ -27,7 +27,7 @@ export default function Index() {
 
 function Navbar () {
     return (
-        <div className="w-screen flex justify-between p-6">
+        <div className="flex justify-between p-6">
             <Logo />
             <div>
                 <button className='bg-indigo-600 p-2 rounded-lg text-white font-semibold shadow-md'>
