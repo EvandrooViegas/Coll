@@ -41,17 +41,15 @@ export default function LinkPreview({ url }:any) {
         tempLink.favicons = res.data.response?.favicons[0]
 
         setLink(tempLink)
-    }).catch((text) => {
-      setPopup({text, type: popTypes.error, isOpen: true})
     })
 
   }, [url])
 // pass the link directly
   
   return (
-    <div className="w-[90%]">
+    <div className="w-full min-h-full flex items-center">
       <Link href={url} target="_blank" rel="noreferrer">
-        <div>
+        <div className="">
           {isLoading && 
           <div className='block m-auto p-10'>
             <ReactLoading type="balls" color="rgb(79 70 229)" height={50} width={50} />

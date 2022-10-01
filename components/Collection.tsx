@@ -6,26 +6,32 @@ import {FiHeart} from "react-icons/fi"
 import {BiBookmark} from "react-icons/bi"
 import {TbMessageCircle2} from "react-icons/tb"
 import Link from 'next/link'
-import Reactions from './Reactions'
+import Reactions from './Reactions/Reactions'
 import { IItems } from '../types/IItems'
 import Item from './Item'
 import gradient from 'random-gradient'
 import { collectionRefContext } from '../context/CollectionRefContext'
 import { popupContext } from '../context/PopupContext'
 import { popTypes } from '../utils/popUtils'
+import { collectionContext } from '../context/CollectionContext'
+import CollectionErrorImage from './CollectionErrorImage'
+import { ImageError } from 'next/dist/server/image-optimizer'
 interface IProps {
     collection: ICollections
     collections?: ICollections[]
     setCollections?: any
     showReactions?:boolean,
-    showEdits?: boolean 
+    showEdits?: boolean,
+    useLink?: boolean
 }
-function Collection({collection, showReactions, showEdits, setCollections, collections}:IProps) {
-    const [collectionImage, setCollectionImage] = useState(collection?.image)
+function Collection({useLink, collection, showReactions, showEdits, setCollections, collections}:IProps) {
+    
 
+    const [collectionImage, setCollectionImage] = useState(collection?.image)
     const {setPopup} = useContext(popupContext)
-    if(showReactions != false) {
-        showReactions = true
+
+    if(useLink != false) {
+        useLink = true
     }
 
     if(showReactions != true) {
@@ -34,30 +40,47 @@ function Collection({collection, showReactions, showEdits, setCollections, colle
 
 
     return (
-        <div className='m-6 cursor-pointer w-[50vw] h-[30rem] md:max-w-[25vw]'>
+        <div className='m-1 my-10 flex justify-center items-center cursor-pointer w-[50vw] min-h-[30vh] max-h-[30vh]  md:max-w-[25vw]'>
           
                 <div 
-                className='min-w-[100%] border-[1px] border-gray-300 pb-1 rounded-lg' 
+                className='min-w-[100%] min-h-[100%] w-full border-[1px] border-gray-300 pb-1 rounded-lg' 
       
                 >
           
-                        <div>
-                            <Link href={`/collection/${collection._id}`}>
-                                <div>
+                        <div className='h-full'>
+                            {useLink ?
+                                <Link href={`/collection/${collection._id}`}>
+                                    <div className='h-full'>
+                                    
                                 
-                             
-                                    <img 
+                                       <div className='w-full h-[8rem] rounded-lg'>
+                                            <CollectionErrorImage
+                                                image={collection.image}
+                                                
+                                            />
+                                       </div>
 
-                                        alt="collectionImage"
-                                        src={collectionImage}  
-                                        className="object-cover w-full h-40 rounded-lg" 
-                        
-                                        onError={() => {
-                                            setCollectionImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAA1BMVEU0NDQehnfUAAAAR0lEQVR4nO3BAQEAAACCIP+vbkhAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO8GxYgAAb0jQ/cAAAAASUVORK5CYII=")
-                                        }}
-                                    />
+                                        <div className='flex flex-col justify-evenly mt-1'>
+                                            <div className='flex justify-center items-center flex-col m-4'>
+                                                <h1 className='text-2xl font-semibold'>{collection.text}</h1>
+                                                <p className='text-xl font-semibold text-gray-600'>{collection.description?.length! > 30 ? collection.description?.slice(0, 30) + "..." : collection?.description}</p>
+                                            </div>
 
-                                    <div className='flex flex-col justify-evenly mt-2'>
+                                        </div>
+                                    </div>
+                                </Link> :
+
+                                <div>
+                                                                    
+                                                                
+                                    <div className='w-40 h-40'>
+                                        <CollectionErrorImage 
+                                        
+                                            image={collection.image}
+                                        />
+                                    </div>
+
+                                    <div className='flex flex-col justify-evenly mt-1'>
                                         <div className='flex justify-center items-center flex-col m-4'>
                                             <h1 className='text-2xl font-semibold'>{collection.text}</h1>
                                             <p className='text-xl font-semibold text-gray-600'>{collection.description?.length! > 30 ? collection.description?.slice(0, 30) + "..." : collection?.description}</p>
@@ -65,12 +88,15 @@ function Collection({collection, showReactions, showEdits, setCollections, colle
 
                                     </div>
                                 </div>
-                            </Link>
+                            }
 
 
                             <div className='w-[40%] mx-auto'>
                                 {showReactions &&
-                                    <Reactions canLike={true} canAddCollection={true} canComment={true} 
+                                    <Reactions 
+                                        canLike={true} 
+                                        canAddCollection={true} 
+                                        canComment={true} 
                                         collection={collection}
                                         func="deleteCollection"
 

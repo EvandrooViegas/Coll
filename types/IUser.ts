@@ -1,6 +1,9 @@
+import { ICollections } from "./ICollections"
+
 export interface IUser {
     password?: string 
     username?: string, 
+    favoriteCollections: string[]
     name?: string
     email: string,
     image: string,

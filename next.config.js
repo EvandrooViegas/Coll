@@ -19,6 +19,7 @@ module.exports = {
 
   reactStrictMode: true,
   swcMinify: true,
+  experimental: { images: { allowFutureImage: true } },
   images: {
     domains: ['lh3.googleusercontent.com', "localhost", "encrypted-tbn0.gstatic.com", "avatars.githubusercontent.com", "res.cloudinary.com", "cdn.sstatic.net", "http", "https"],
   

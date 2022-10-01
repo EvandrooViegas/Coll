@@ -16,32 +16,44 @@ function Popup() {
 
 
   return (
-    <div className='fixed top-20 flex flex-col gap-2 z-[200] m-5 w-fit h-fit' id='popup'>
+    <div className='fixed top-20 flex flex-col gap-2  m-5 w-fit h-fit' id='popup'>
 
         {type == popTypes.success && (
-            <div className='flex gap-3 bg-green-600 p-2 text-white rounded-sm shadow-lg'>
-                <div>
-                    👌
+            <div className='flex items-center bg-white shadow-[0px_22px_20px_1px_rgba(0,0,0,0.26)] rounded-lg'>
+                <div className="flex-2 w-4 h-10 bg-green-500 rounded-lg">
+
                 </div>
-                {text}
+
+                <div className='flex-1 p-2'>
+                    {text} 👌
+                </div>
             </div>
+  
         )}
 
         {type == popTypes.alert && (
-            <div className='flex gap-3 bg-yellow-600 p-2 text-white rounded-sm shadow-lg'>
-                <div>
-                    🚧
+            <div className='flex items-center bg-white shadow-[0px_22px_20px_1px_rgba(0,0,0,0.26)] rounded-lg'>
+                <div className="flex-2 w-4 h-10 bg-yellow-500 rounded-lg">
+
                 </div>
-                {text}
+
+                <div className='flex-1 p-2'>
+                    {text} 🚧
+                </div>
             </div>
+
         )}
 
         {type == popTypes.error && (
-            <div className='flex gap-3 bg-red-500 p-2 text-white rounded-sm shadow-lg'>
-                <div>
-                    😥
+
+            <div className='flex items-center bg-white shadow-[0px_22px_20px_1px_rgba(0,0,0,0.26)] rounded-lg'>
+                <div className="flex-2 w-4 h-10 bg-red-500 rounded-lg">
+
                 </div>
-                {text}
+
+                <div className='flex-1 p-2'>
+                    {text} 😥
+                </div>
             </div>
         )}
 

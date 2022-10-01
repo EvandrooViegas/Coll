@@ -8,10 +8,9 @@ interface IProps {
     repo: IRepo[]
 }
 function Github({repo:repoList}:IProps) {
-
-
+    
   return (
-    <div className='flex flex-col items-center bg-neutral-900 rounded-lg px-[15px] p-4 max-h-[500px] w-full shadow-lg overflow-scroll overflow-x-hidden'>
+    <div className='min-w-full min-h-full max-h-[40vh] flex flex-col items-center bg-neutral-900 rounded-lg px-[15px] p-4  shadow-lg overflow-scroll overflow-x-hidden'>
         {
         repoList?.length > 0 ?
         repoList?.map((rep:IRepo) => (

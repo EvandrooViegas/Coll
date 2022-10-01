@@ -6,21 +6,32 @@ import { ICollections } from '../../types/ICollections'
 import { IUser } from '../../types/IUser'
 import { client } from '../../utils/sanityClient'
 import Collection from "../../components/Collection"
+import UserCollectionStatus from '../../components/UserCollectionStatus'
+import CollectionMap from '../../components/CollectionMap'
 
 export default function UserDetails({data}:any) {
   const user:IUser = data
-  const [showUserVideos, setShowUserVideos] = useState(true)
   const [collections, setCollections] = useState<ICollections[]>()
-  const {getUserCollections} = useContext(collectionContext)
-  const getCollections = async () => {
-    if(showUserVideos) {
-      const res = await getUserCollections(user)
+  const {getUserCollections, getUserFavoriteCollections} = useContext(collectionContext)
+  
+  const [showUserCollections, setShowUserCollections] = useState(true)
+  const handleGetCollections = async () => {
+    if(showUserCollections) {
+      const res:ICollections[] = await getUserCollections(user)
       setCollections(res)
     }
   }
+  const handleGetUserFavoriteCollections = async () => {
+    const data = await getUserFavoriteCollections(user._id)
+    setCollections(data)
+  }
   useEffect(() => {
-    getCollections()
-  }, [showUserVideos])
+    if(showUserCollections) {
+      handleGetCollections()
+    } else {
+      handleGetUserFavoriteCollections()
+    }
+  }, [showUserCollections])
   
   return (
     <div className='relative flex justify-center'>
@@ -34,22 +45,12 @@ export default function UserDetails({data}:any) {
             </div>
           </div>
 
-          <div className='static w-full flex justify-center border-gray-200 h-[12vh] md:w-[55%] rounded-lg 
-          md:flex md:justify-center md:absolute right-0 border-t-[1px] border-b-[1px] border-l-[1px]'> 
+          <div className='static w-full h-[12vh] md:w-[55%] rounded-lg 
+          md:flex md:justify-center md:absolute right-0'> 
 
-              <div className='flex justify-between items-center w-[60%]'>
-                <div className='flex flex-col justify-center items-center'>
-                  <p className='text-xl'>100</p>
-                  <p className='text-gray-600 font-semibold text-sm'>following</p>
-                </div>
-                <div className='bg-gray-200 rounded-lg h-[40%] w-[3px]'>
-
-                </div>
-                <div className='flex flex-col justify-center items-center'>
-                  <p className='text-xl'>100</p>
-                  <p className='text-gray-600 font-semibold text-sm'>followers</p>
-                </div>
-              </div>
+             <UserCollectionStatus 
+              user={user}
+            />
 
           </div>  
         </div>
@@ -58,12 +59,12 @@ export default function UserDetails({data}:any) {
           <div className='flex gap-10 border-b-[1px]'>
             <div
               onClick={() => {
-                setShowUserVideos(true)
+                setShowUserCollections(true)
               }}
               className="flex flex-col cursor-pointer"
             >
               <span>Collections</span>
-              {showUserVideos &&
+              {showUserCollections &&
                 <div className='w-full h-[4px] rounded-md bg-black'>
 
                 </div>
@@ -73,13 +74,13 @@ export default function UserDetails({data}:any) {
 
             <div
               onClick={() => {
-                setShowUserVideos(false)
+                setShowUserCollections(false)
               }}
               className="flex flex-col cursor-pointer"
             >
               <span>Favorite Collections</span>
               
-              {!showUserVideos &&
+              {!showUserCollections &&
                 <div className='w-full h-[4px] rounded-md bg-black'>
 
                 </div>
@@ -87,14 +88,16 @@ export default function UserDetails({data}:any) {
             </div>
             
           </div>
+            <div>
+               
+                  <CollectionMap 
+                  setCollections={setCollections}
+                  collections={collections}
+                  /> 
 
-          <div className='flex justify-center h-full'>
-            <div className='h-full flex flex-wrap'>
-              {collections?.map((coll:ICollections) => (
-                <Collection key={coll._id} collection={coll} showReactions={false} />
-              ))}
+              
             </div>
-          </div>
+       
         </div>
       </div>
     </div>

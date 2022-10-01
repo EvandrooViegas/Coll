@@ -53,10 +53,10 @@ function Layout({children}: IProps) {
         </div>
   
       
-        <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 h-[93vh] md:left-[8%] md:h-screen'>
+        <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 h-[93vh] md:left-[13vw] md:h-screen'>
           {children}
           <div>
-            <div className='flex justify-center'>
+            <div className='z-[200] flex justify-center'>
               {popup.isOpen && (
                 <Popup />
               )}

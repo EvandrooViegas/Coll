@@ -15,7 +15,7 @@ function MdNav() {
 
         <div className='flex justify-center mr-10'>
             <div className='flex md:hidden'>
-                <ActiveLink href="/">
+                <ActiveLink href="/home">
                     <div>
                         <span className='text-xl'>
                             <HiOutlineHome />
@@ -52,7 +52,7 @@ function MdNav() {
                 {user ?
 
                     <Link href={`/user/${user._id}`}>
-                        <div className='cursor-pointer bg-gray-200 p-2 absolute top-0 right-0 w-[30%] justify-center h-full flex gap-2 items-center md:flex-col'
+                        <div className='cursor-pointer bg-gray-200 p-2 absolute top-0 right-0 w-[20%] justify-center h-full flex gap-2 items-center md:flex-col'
                         
                             style={{
                                 borderRadius: "25px 0 0 25px"
@@ -61,10 +61,7 @@ function MdNav() {
                         
                             <img className='rounded-full object-cover w-10 h-10' src={user.image} alt="profile" />
                 
-                            <div className='flex flex-col text-[2.4vw]'>
-                                <span className='font-semibold text-gray-800'>@{user.username?.trim().toLocaleLowerCase()}</span>
-                                
-                            </div>
+                       
                         </div> 
                     </Link>
                     : 

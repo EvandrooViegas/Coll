@@ -7,7 +7,7 @@ import { Context } from 'vm'
 import Author from '../../components/Author'
 import Item from '../../components/Item'
 import NotFound from '../../components/NotFound'
-import Reactions from '../../components/Reactions'
+import Reactions from '../../components/Reactions/Reactions'
 import { collectionRefContext } from '../../context/CollectionRefContext'
 import { modalContext } from '../../context/ModalContext'
 import { ICollections } from '../../types/ICollections'
@@ -25,6 +25,7 @@ import { userContext } from '../../context/UserContext'
 import useAuthStore from '../../store/authStore'
 import { ILikes } from '../../types/ILikes'
 import { MdExpandMore, MdOutlineExpandLess } from 'react-icons/md'
+import CollectionErrorImage from '../../components/CollectionErrorImage'
 interface IProps {
     data: ICollections | null
 }
@@ -42,8 +43,9 @@ function Collection({data}:IProps) {
     const [showInfo, setShowInfo] = useState<boolean>(false)
 
 
+
     const fetchCollections = async () => {
-        const res = await getSingleCollection(collection._id)
+        const res = await getSingleCollection(collection!._id)
         setCollection(res)
         setIsLoading(false)
     }
@@ -59,9 +61,9 @@ function Collection({data}:IProps) {
                 payload: collection, isOpen: true 
             })
             const randomInt = Math.random() * 10000000000000
-            const itemInfo = {_type: "item", author: user, text: title, description, content, _key: randomInt.toString(), contentType}
+            const itemInfo = {_type: "item", author: user!, text: title, description, content, _key: randomInt.toString(), contentType}
 
-            const res =  await addItem(itemInfo, collection, collection?._id, collection?.items ? true : false)
+            const res =  await addItem(itemInfo, collection, collection!._id, collection?.items ? true : false)
             await fetchCollections()
 
             setPopup({
@@ -99,60 +101,73 @@ function Collection({data}:IProps) {
     <div className='flex flex-col m-6 justify-center md:m-14'>
 
             {collection &&
-                <div className='flex flex-col'>
+                <div className='flex flex-col p-2'>
             
                     <div>
-                        <Author author={collection?.author} />
-                    </div>
-                    <div className='p-2'>
-                    
-                        <h1 className='font-semibold text-2xl'>{collection?.text}</h1>
-                        <p className='text-gray-700'>{collection?.description}</p>
                         <div>
-                            <span 
-                            className='cursor-pointer'
-                            onClick={() => {
-                                setShowInfo(!showInfo)
-                            }}>
-                                {!showInfo ?
-                                    <MdExpandMore /> :
-                                    <MdOutlineExpandLess />
-                                }   
-                            </span>
-                            {showInfo &&
-                                <div className='transition'>
-                                    <div className="flex flex-col">
-                                        <div>
-                                            <span className='font-semibold'>Hashtags: </span>
-                                            {collection?.hashtags?.map((h:string) => (  
-                                                    <Link  key={Math.random() * 1000} href={`/hashtags/${h}`}>
-                                                        <span
-                                                        className="cursor-pointer hover:text-indigo-500 ml-2"
-                                                        >
-                                                        #{h} 
-                                                    </span> 
-                                                    </Link>       
-                                                )
-                                            )}
-                                        </div>
-
-                                        <span className='font-semibold'>
-                                            Created At:  
-                                            <span className='ml-1 font-normal'>
-                                                {collection._createdAt}
-                                            </span>
-                                        </span>
-                                 
-                                    </div>
-                                </div>
-                            }
+                            <Author author={collection?.author} />
+                        </div>
+                        <div>
+                        
+                            <h1 className='font-semibold text-2xl'>{collection?.text}</h1>
+                            <p className='text-gray-700'>{collection?.description}</p>
                         </div>
                     </div>
+
+                    <div>
+                        <span 
+                        className='cursor-pointer'
+                        onClick={() => {
+                            setShowInfo(!showInfo)
+                        }}>
+                            {!showInfo ?
+                                <MdExpandMore /> :
+                                <MdOutlineExpandLess />
+                            }   
+                        </span>
+                        {showInfo &&
+                            <div className='transition'>
+                                <div className="flex flex-col">
+                                    <div>
+                                        <span className='font-semibold'>Hashtags: </span>
+                                        {collection?.hashtags?.map((h:string) => (  
+                                                <Link  key={Math.random() * 1000} href={`/hashtags/${h}`}>
+                                                    <span
+                                                    className="cursor-pointer hover:text-indigo-500 ml-2"
+                                                    >
+                                                    #{h} 
+                                                </span> 
+                                                </Link>       
+                                            )
+                                        )}
+                                    </div>
+
+                                    <span className='font-semibold'>
+                                        Created At:  
+                                        <span className='ml-1 font-normal'>
+                                            {collection._createdAt}
+                                        </span>
+                                    </span>
+                                
+                                </div>
+                            </div>
+                        }
+                    </div>
+
                     <div className='w-[100%]'>
-                        <img src={collection?.image} alt="" className='md:bg-black object-cover rounded-sm w-screen h-[50vh]' />
+                        <div className='w-full h-[40vh]'>
+                            <CollectionErrorImage
+                                image={collection.image}
+                            />
+                        </div>
                         
-                        <Reactions canLike={true} canComment={true} canAddCollection={true} 
+                        
+                        <Reactions 
+                            canLike={true} 
+                            canComment={true} 
+                            canAddCollection={true} 
                             collection={collection}
+                            setCollection={setCollection}
                         />
                         {collection?.author?.email == user?.email && collection?.items && collection?.items.length > 0 &&
     
@@ -175,16 +190,19 @@ function Collection({data}:IProps) {
 
                             :
                                 collection?.items?.map((item:IItems) => (
-                                    <div key={item?._key} className="my-[20px]">
-                                        <Item item={item} />
+                                    <div key={item?._key} className="w-full my-[20px]">
+                                        <Item 
+                                        
+                                            item={item}
+                                            collection={collection}    
+                                        />
                                     </div>
                                 ))
                             }
                         </div>
                     </div>
                 </div>
-            }
-        
+            } 
       
     </div>
     
@@ -193,19 +211,6 @@ function Collection({data}:IProps) {
 
 export default Collection
 
-
-// export async function getStaticPaths () {
-
-//     const data:any = await getCollections()
-//     const paths = data.map((i:any) => (
-//         {params: {id: i._id}}
-//     ))
-   
-//     return {
-//         paths,
-//         fallback: true
-//     }
-// }
 
 
 

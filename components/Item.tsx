@@ -2,15 +2,16 @@ import React, { useEffect } from 'react'
 import { IItems } from '../types/IItems'
 import Author from './Author'
 import Content from './Content';
-import Reactions from './Reactions';
+import Reactions from './Reactions/Reactions';
 import { useSession } from 'next-auth/react';
 import { ICollections } from '../types/ICollections';
 import useAuthStore from '../store/authStore';
 interface IProps {
   item: IItems
+  collection?:ICollections
   showReactions?: boolean
 }
-function Item({item, showReactions}:IProps) {
+function Item({item, showReactions, collection}:IProps) {
 
     var tempItem:IItems = 
     {...item, 
@@ -74,21 +75,24 @@ function Item({item, showReactions}:IProps) {
 
     return ( 
       <div className='flex items-start justify-start flex-col m-[15px] p-2 w-full'>
-        <Author author={item.author} showFallow={true} />
+        <Author author={item.author}  />
         <h1 className='font-semibold text-lg my-3'>{item.text}</h1>
         <p className='m-1'>{item.description}</p>
-        <div>
-          <div>
+        <div className='w-full'>
+          <div className='w-full'>
               {item.content && (
                <Content contentType={contentType} item={item} />
               )}
           </div>
   
         </div>
-          {user && item.author.email == user.email && showReactions &&
+          {user && item.author._id == user._id && showReactions && collection?.author._id == user._id ?
             <div className='opacity-100 transition'> 
-                <Reactions canDelete={true} canUpdate={true} func="deleteItem" item={item}/>
-            </div>
+                <Reactions canDelete={true} canUpdate={true} canAddItemToCollection={true} func="deleteItem" item={item}/>
+            </div> :
+            <div className='opacity-100 transition'> 
+              <Reactions canAddItemToCollection={true} func="deleteItem" item={item}/>
+             </div>
           }
     </div> 
     )

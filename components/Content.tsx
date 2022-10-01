@@ -16,6 +16,7 @@ interface IProps {
     item: IItems
 }
 function Content({item}:IProps) {
+ 
     const contentType = item.contentType
     
     const [repo, setRepo] = useState<any>()
@@ -24,7 +25,7 @@ function Content({item}:IProps) {
 
         await axios.get(`https://api.github.com/users/${repoName}/repos`)
         .then((res:any) => setRepo(res.data))
-    
+        
     
     }
     let isAImage:any
@@ -35,13 +36,12 @@ function Content({item}:IProps) {
 
     const size = {
         width: '100%',
-        height: 400,
+        height: "400px",
     };
     const opts: YouTubeProps['opts'] = {
-        height: '400px',
+        minHeight: '100%',
         width: '100%',
         playerVars: {
-            // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
         },
     };
@@ -58,37 +58,37 @@ function Content({item}:IProps) {
 
 
   return (
-    <div>
+    <div className='h-full w-full'>
         {contentType == "youtube" && (
-            <div>
+            <div className='w-full h-full'>
                 <YouTube videoId={videoId} opts={opts} />
             </div>
         )}
 
         {contentType == "spotify" && (
-            <div>
+            <div className='w-full h-full'>
                 <SpotifyPlayer
-                uri={item.content}
-                size={size}
-                view={view}
-                theme={theme}
+                    uri={item.content}
+                    size={size}
+                    view={view}
+                    theme={theme}
                 />
              
             </div>
         )}
 
         {contentType == "img" && (
-            <img src={item.content} alt="" className='object-cover rounded-sm w-max[90%] h-max[90%]' />
+            <img src={item.content} alt="" className='object-cover rounded-sm  w-full h-full' />
         )}
 
         {contentType == "link" && (
-            <div>  
+            <div className='w-full h-full'> 
                 <LinkPreview url={item.content} />
             </div>
         )}
 
         {contentType == "github" &&  (
-            <div>
+            <div className='w-full h-full'>
                 <Github repo={repo} />
             </div>
         )}

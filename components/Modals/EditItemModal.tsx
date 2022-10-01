@@ -46,12 +46,13 @@ export default function EditItemModal({item, setCollectionRef}:Props) {
                 text: title,
                 description,
                 content,
-                selectedContent: selectedContent.value
+                contentType: selectedContent.value
             }
-            await updateItem(newItem, collection)
+            if(collection) {
+                await updateItem(newItem, collection)
+            }
     
-            
-            const res = await getSingleCollection(collection._id)
+            const res = await getSingleCollection(collection!._id)
             console.log(res)
             setCollectionRef(res)
             setIsLoading(false)

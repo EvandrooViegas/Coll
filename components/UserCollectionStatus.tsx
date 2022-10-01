@@ -28,7 +28,9 @@ function UserCollectionStatus({user}:IProps) {
        
             //likes
             userCollections?.map((collection:ICollections) => {
-                likesCounter = likesCounter + collection.likes?.length!
+                if(collection.likes) {
+                    likesCounter = likesCounter + collection.likes?.length!
+                }
             })
 
             // //items
@@ -56,7 +58,7 @@ function UserCollectionStatus({user}:IProps) {
     }, [user])
     
   return (
-    <div className='flex items-center gap-4 justify-center flex-wrap mt-4 border-[1px] p-2 px-4 rounded-lg'>
+    <div className='flex items-center gap-4 justify-evenly flex-wrap mt-4 border-[1px] p-2 px-4 rounded-lg'>
         <div className='flex flex-col items-center justify-center'>
             <RiHeart2Line />
             {userStatus.likes}

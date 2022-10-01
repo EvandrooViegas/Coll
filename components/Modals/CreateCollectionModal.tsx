@@ -33,7 +33,6 @@ export default function CreateCollectionModal({setCollections}:any) {
 
     const handleSubmit = async (e:React.SyntheticEvent) => {
         e.preventDefault()
-        setIsLoading(true)
         if(title && hashtagsArr && image) {
             if(title.length <= 35) {
             
@@ -51,9 +50,10 @@ export default function CreateCollectionModal({setCollections}:any) {
 
                 
                 try {
+                    setIsLoading(true)
                     setPopup({isOpen: true, text: "Collection created successfully!", type: popTypes.success})
-                    await createCollection(collectionInfo, user)
-                    const res = await getUserCollections(user)
+                    await createCollection(collectionInfo, user!)
+                    const res = await getUserCollections(user!)
                     setCollections(res)
                     setIsLoading(false)
 
@@ -69,10 +69,18 @@ export default function CreateCollectionModal({setCollections}:any) {
                     console.log(error)
                 }
             } else {
-                setError("The title is to big!")
+                setPopup({
+                    text: "The title is to big!",
+                    type: popTypes.error,
+                    isOpen: true
+                })
             }
         } else {
-            setError("Name, hashtags or image were not given")
+            setPopup({
+                text: "Name, hashtags or image were not given",
+                type: popTypes.error,
+                isOpen: true
+            })
         }
         
     }

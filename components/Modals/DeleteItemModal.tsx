@@ -12,7 +12,7 @@ function Ok_Cancel({isLoading}:IProps) {
     const {modal, setModal} = useContext(modalContext)
     const item:IItems = modal.payload
 
-    console.log(item.text)
+    
   return (
     <div className='flex flex-col items-center justify-center rounded-lg'>
       <div className='flex flex-col items-center justify-center gap-10 my-5'>

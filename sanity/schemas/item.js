@@ -1,4 +1,4 @@
-export default {
+iexport default {
   name: 'category',
   title: 'Category',
   type: 'document',

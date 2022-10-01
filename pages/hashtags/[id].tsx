@@ -27,8 +27,9 @@ export default function hashtagDetails({data, param}:IProps) {
                 />
               </div>
 
-              <div>
+              <div className='flex flex-col'>
                 <span className='font-semibold text-3xl'>#{param}</span>
+                <span>{data.length > 0 ? data.length + " " + "Collections" : data.length + " " + "Collection"}</span>
               </div>
             </div>
 

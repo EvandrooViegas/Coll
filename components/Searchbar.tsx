@@ -16,6 +16,7 @@ function Searchbar({search, setSearch, handleSearch}:IProps) {
             type="text"
             className='flex-1 h-10 bg-gray-100'
             onChange={(e) => setSearch(e.target.value)}
+            value={search}
             />
         <button 
             className='rounded-lg text-white p-4 absolute right-0 flex items-center justify-center gap-2 bg-indigo-600 h-10 transition

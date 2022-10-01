@@ -16,8 +16,7 @@ function LoginWithColl() {
     const handleSubmit = async (e:any) => {
         e.preventDefault()
         if(email && password) {
-            loginUser(email, password)
-            
+            const res = await loginUser(email, password)
         } else {
             setError("Email or password was not provided")
         }
@@ -56,7 +55,7 @@ function LoginWithColl() {
         bg-indigo-500 rounded-sm shadow-sm text-white hover:bg-indigo-600'
         onClick={handleSubmit}
         >
-            Register 
+            Login 
       
         </button>
     </form>

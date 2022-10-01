@@ -6,35 +6,53 @@ import CollectionContextProvider from '../context/CollectionContext'
 import { ItemContextProvider } from '../context/ItemContext'
 import { CollectionRefContextProvider } from '../context/CollectionRefContext'
 import ModalContextProvider, { modalContext } from '../context/ModalContext'
-import { useContext } from 'react'
+import { useEffect } from 'react'
 
 import { PopupContextProvider } from '../context/PopupContext'
 import { UserContextProvider } from '../context/UserContext'
 
 import { UserCollectionRefProvider } from '../context/UserCollectionsRef'
+import useAuthStore from '../store/authStore'
+import Router, { useRouter } from 'next/router'
 
 function MyApp({ Component, pageProps, session }: any) {
+  const router = useRouter()
+  const currentPage = router.pathname
+  const noNavbarPages = [
+    "/",
+    "/login"
+ 
+  ]
 
+
+
+  
 
   return (
     <SessionProvider session={session}>
-      <UserContextProvider>
-          <CollectionRefContextProvider>
-            <CollectionContextProvider>
-              <UserCollectionRefProvider>
-                <ItemContextProvider>
-                  <ModalContextProvider>
-                    <PopupContextProvider>
-                      <Layout>
+      <PopupContextProvider>
+        <ModalContextProvider>
+          <UserContextProvider>
+            <ItemContextProvider>
+              <CollectionRefContextProvider>
+                <CollectionContextProvider>
+                  <UserCollectionRefProvider>
+                      {
+                        !noNavbarPages.includes(currentPage)
+                        ? 
+                        <Layout>
                           <Component {...pageProps} />
-                      </Layout>
-                    </PopupContextProvider>
-                  </ModalContextProvider>
-                </ItemContextProvider>
-              </UserCollectionRefProvider>
-            </CollectionContextProvider>
-          </CollectionRefContextProvider>
-      </UserContextProvider>
+                        </Layout>
+                        :
+                        <Component {...pageProps} />
+                      }
+                  </UserCollectionRefProvider>
+                </CollectionContextProvider>
+              </CollectionRefContextProvider>
+            </ItemContextProvider>
+          </UserContextProvider>
+        </ModalContextProvider>
+      </PopupContextProvider>
     </SessionProvider>
   )
 }

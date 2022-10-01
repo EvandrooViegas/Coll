@@ -1,5 +1,5 @@
 
-import React, { FormEvent, FormEventHandler, useContext, useEffect, useState } from 'react'
+import React, { FormEvent, FormEventHandler, useContext, useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { collectionContext } from '../../context/CollectionContext'
 import { popupContext } from '../../context/PopupContext'
@@ -21,9 +21,14 @@ export default function EditCollectionModal({collection, setCollections}:IProps)
     const [hashtags, setHashtags] = useState<any>()
     const [isPrivate, setIsPrivate] = useState<any>(collection?.private)
     
+    console.log(isPrivate)
+
     const hashtagsColors = ["#5063f2", "#594ddb", "#4dc6db"]
 
     const [hashtagsArr, setHashtagsArr] = useState<any>()
+
+
+   
 
     const {user} = useAuthStore()
     const router = useRouter()
@@ -34,7 +39,7 @@ export default function EditCollectionModal({collection, setCollections}:IProps)
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
-    
+
 
     const handleSubmit = async (e:React.SyntheticEvent) => {
         e.preventDefault()
@@ -52,12 +57,13 @@ export default function EditCollectionModal({collection, setCollections}:IProps)
                         return h.text
                     }), 
                     private: isPrivate
+                    
                 }
 
-                
+              
                 try {
-                    await updateCollection(collection?._id, collectionInfo)
-                    const res = await getUserCollections(user)
+                    await updateCollection(collection!._id, collectionInfo)
+                    const res = await getUserCollections(user!)
                     setCollections(res)
                     setIsLoading(false)
                     
@@ -121,8 +127,7 @@ export default function EditCollectionModal({collection, setCollections}:IProps)
  
     }, [])
 
-
-
+  
 
  
 
@@ -221,25 +226,28 @@ export default function EditCollectionModal({collection, setCollections}:IProps)
                     <div className='flex items-center gap-5'>
                         <span className='my-2 text-gray-500 '>Private: </span>
                         <input 
-                        value={isPrivate}
-                        onChange={(e) => setIsPrivate(e.target.checked)}
-                        className='transition  border-[1px] border-gray-200 rounded-sm shadow-sm outline-none p-2 hover:border-[1px] hover:border-indigo-600 focus:border-indigo-600 active:border-indigo-600'
-                        type="checkbox" placeholder='Whats your collection about?' />
+                            value={isPrivate}
+                            onChange={(e) => setIsPrivate(e.target.checked)}
+                            className='transition  border-[1px] border-gray-200 rounded-sm shadow-sm outline-none p-2 hover:border-[1px] hover:border-indigo-600 focus:border-indigo-600 active:border-indigo-600'
+                            type="checkbox" placeholder='Whats your collection about?' 
+                            checked={isPrivate}
+                        
+                        />
                     </div>
 
-                            <div className='flex w-[60%] items-center justify-center'>
-                                {!isLoading ?
-                                    <button className='m-2 px-2 w-[70%] py-1 bg-in bg-indigo-500 rounded-sm shadow-sm text-white'>
-                                        Update    
-                                    </button> :
-                                    <button className='flex justify-evenly items-center gap-3 m-2 px-2 w-[70%] py-1 bg-in bg-indigo-300 rounded-sm shadow-sm text-white' disabled>
-                                            Updating
-                                            <ReactLoading type="spin" width={20} height={20}/>    
-                                    </button>
-                                }
+                    <div className='flex w-[60%] items-center justify-center'>
+                        {!isLoading ?
+                            <button className='m-2 px-2 w-[70%] py-1 bg-in bg-indigo-500 rounded-sm shadow-sm text-white'>
+                                Update    
+                            </button> :
+                            <button className='flex justify-evenly items-center gap-3 m-2 px-2 w-[70%] py-1 bg-in bg-indigo-300 rounded-sm shadow-sm text-white' disabled>
+                                    Updating
+                                    <ReactLoading type="spin" width={20} height={20}/>    
+                            </button>
+                        }
 
-       
-                            </div>
+
+                    </div>
                    
 
                 </form>

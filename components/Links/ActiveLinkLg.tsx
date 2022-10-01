@@ -8,6 +8,7 @@ function ActiveLink({ children, href }:any) {
       marginRight: 10,
       color: router.asPath === href ? 'rgb(79 70 229)' : 'black',
       border: ""
+  
     }
 
     const barStyle = {
@@ -25,7 +26,7 @@ function ActiveLink({ children, href }:any) {
   }
 
   return (
-    <a href={href} onClick={handleClick} style={style} >
+    <a href={href} onClick={handleClick}  style={style} >
         <div className='flex items-center'>
             <div style={barStyle}></div>
             {children}

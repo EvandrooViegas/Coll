@@ -18,6 +18,7 @@ import ReactLoading from "react-loading"
 import jwt from "jsonwebtoken"
 import { popupContext } from '../context/PopupContext'
 import { popTypes } from '../utils/popUtils'
+import Logo from '../components/Logo'
 function Login() {
     const [username, setUsername] = useState<any>("")
     const [email, setEmail] = useState<any>("")
@@ -43,7 +44,7 @@ function Login() {
 
     useEffect(() => {
         if(user) {
-            router.push("/")
+            router.push("/home")
         }
     }, [user])
 
@@ -97,38 +98,23 @@ function Login() {
     const login = async (user:any, provider:string) => {
         if(provider == "next-auth") {
             const token = jwt.sign(user.email, "123").slice(21, 56)
-            getOrCreateUser({...user, _id: token, _type: "user"})
+            await getOrCreateUser({...user, _id: token, _type: "user", username: user.name})
+
       
-        } else if ("coll") {
+        } 
+        else if ("coll") {
             const token = jwt.sign(user.email, "123").slice(21, 56)
             await registerUser({...user, _id: token, _type: "user"})
-            .then((res:string) => {
-                console.log(res)
-
-                setPopup({
-                    isOpen: true,
-                    text: res,
-                    type: popTypes.success
-                })
-            })
-            .catch((msg:string) => {
-                console.log(msg)
-                setPopup({
-                    isOpen: true,
-                    text: msg,
-                    type: popTypes.error
-                })
-            })
         }
     }
 
-    const loginWithColl = async () => {
+    const loginWithColl = () => {
 
         setModal({
             isOpen: true, 
             element: <LoginWithColl />,
-      
         })
+ 
     }
 
 
@@ -228,9 +214,7 @@ function Login() {
 
                 <div onClick={loginWithColl}>
                     <div className='border-[1px] border-gray-200 p-2 rounded-lg flex items-center gap-1 h-11'>
-                        <span>
-                            <Image width={30} height={30} src="/../public/logo/black-simple.png" />
-                        </span>
+                        <Logo width={22} />
                         <span>Coll</span>
                     </div>
                 </div>
