@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps, session }: any) {
     "/login"
  
   ]
-
+    console.log(!noNavbarPages.includes(currentPage))
 
     return (
       <SessionProvider session={session}>
