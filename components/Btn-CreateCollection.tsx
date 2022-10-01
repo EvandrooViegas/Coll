@@ -8,11 +8,11 @@ function BtnCreateCollection({setCollections}: {setCollections?: any}) {
     <button className='p-2 bg-indigo-700 transition duration-100 text-white w-fit m-auto my-4 rounded-sm hover:bg-indigo-800'
         onClick={() => {
             setModal({
-            isOpen: true,
-            element: <CreateCollectionModal 
-            
-                setCollections={setCollections}
-            />
+              isOpen: true,
+              element: <CreateCollectionModal 
+              
+                  setCollections={setCollections}
+              />
             })
         }}
         

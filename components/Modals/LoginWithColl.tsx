@@ -12,7 +12,6 @@ function LoginWithColl() {
 
     const {loginUser} = useContext(userContext)
 
-
     const handleSubmit = async (e:any) => {
         e.preventDefault()
         if(email && password) {

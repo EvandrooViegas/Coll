@@ -45,6 +45,7 @@ function Login() {
     useEffect(() => {
         if(user) {
             router.push("/home")
+            console.log(user)
         }
     }, [user])
 
@@ -113,8 +114,7 @@ function Login() {
         setModal({
             isOpen: true, 
             element: <LoginWithColl />,
-        })
- 
+        }) 
     }
 
 

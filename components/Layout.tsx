@@ -10,9 +10,10 @@ import Link from 'next/link';
 
 interface IProps {
   children: React.ReactNode
+  showNavbar?: boolean
 }
 
-function Layout({children}: IProps) {
+function Layout({children, showNavbar}: IProps) {
   Modal.setAppElement('#__next');
   const customStyles = {
     
@@ -48,12 +49,14 @@ function Layout({children}: IProps) {
   return (
     <div className='flex'>
    
-        <div className='z-[101] md:z-[100]'>
-          <SideNavbar /> 
-        </div>
+        {showNavbar &&
+          <div className='z-[101] md:z-[100]'>
+            <SideNavbar /> 
+          </div>
+        }
   
       
-        <div className='z-[100] overflow-scroll fixed top-0 bottom-0 right-0 left-0 h-[93vh] md:left-[13vw] md:h-screen'>
+        <div className={`z-[100] overflow-y-scroll overflow-x-hidden fixed top-0 bottom-0 right-0 left-0 ${showNavbar ? "h-[93vh]" : "h-[100vh]"} md:${showNavbar ? "left-[13vw]" : "h-0"} md:h-screen`}>
           {children}
           <div>
             <div className='z-[200] flex justify-center'>

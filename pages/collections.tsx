@@ -14,6 +14,7 @@ import CollectionAndFavoutiteCollectionsNav from '../components/CollectionAndFav
 import BtnCreateCollection from '../components/Btn-CreateCollection'
 import UserDashboardCollections from '../components/UserDashboardCollections'
 import useAuthStore from '../store/authStore';
+import Login from './login';
 
 
 
@@ -33,6 +34,7 @@ function Collections() {
   const [showUserCollections, setShowUserCollections] = useState<boolean>(true)
   const [search, setSearch] = useState("")
   const filtredCollections:ICollections[] = []
+
   
   
 
@@ -49,8 +51,6 @@ function Collections() {
       }
     }
   }
-  
-  
   
   if(search) {
     console.log(collections)
@@ -74,79 +74,94 @@ function Collections() {
   useEffect(() => {
     getCollections()
   }, [showUserCollections])
-    
   
-    
-  return (
-    <div className='flex flex-col items-center'>
-       {loading 
-            ?
-          <div className='block m-auto p-10'>
-            <ReactLoading type="balls" color="rgb(79 70 229)" height={50} width={50} />
-          </div> 
-            : 
-          <div className='flex flex-col items-center  justify-center'>
-              {collections?.length > 0 ?
-              
-                <div className='flex flex-col items-center justify-center'>
-                      <div className='flex flex-col items-center justify-center'>
-                          <AuthorImage img={user?.image} />
-                          <UserCollectionStatus user={user} />
-                          <h1 className='text-2xl font-semibold text-center m-4'>{user?.username}&apos;s Collections: </h1>
-                      </div>
+  
+  const [hasMounted, setHasMounted] = useState(false)
+  useEffect(() => {
+      setHasMounted(true)
+  }, [])
+  if(!hasMounted) {
+      return null
+  }
+  
+  if(user) {
 
-
-
-                      <BtnCreateCollection
-                        setCollections={setCollections}
-                      />
-
-                      <div className='w-[55vw]'>
-                        <Searchbar 
-                          search={search}
-                          setSearch={setSearch}
-                        />
-                      </div>
-                      
-                        <CollectionAndFavoutiteCollectionsNav 
-                          showUserCollections={showUserCollections}
-                          setShowUserCollections={setShowUserCollections}
-                        />
+    return (
+      <div className='flex flex-col items-center'>
+         {loading 
+              ?
+            <div className='block m-auto p-10'>
+              <ReactLoading type="balls" color="rgb(79 70 229)" height={50} width={50} />
+            </div> 
+              : 
+            <div className='flex flex-col items-center  justify-center'>
+                {collections?.length > 0 ?
                 
-          
-                        <UserDashboardCollections 
-                          filtredCollections={filtredCollections}
-                          search={search}
+                  <div className='flex flex-col items-center justify-center'>
+                        <div className='flex flex-col items-center justify-center'>
+                            <AuthorImage img={user?.image} />
+                            <UserCollectionStatus user={user} />
+                            <h1 className='text-2xl font-semibold text-center m-4'>{user?.username}&apos;s Collections: </h1>
+                        </div>
+  
+  
+  
+                        <BtnCreateCollection
                           setCollections={setCollections}
-                          collections={collections}
-                          favoriteCollections={favoriteCollections}
-                          showUserCollections={showUserCollections}
                         />
-                </div>
-                
-                :
-                <div className='flex flex-col justify-center items-center m-[50px]'>
-                  <NotFound type="collections" />
-                  <button className='p-2 bg-indigo-500 transition duration-100 text-white w-fit m-auto my-4 rounded-sm hover:bg-indigo-600'
-                      onClick={() => {
-                        setModal({
-                          isOpen: true,
-                          element: <CreateCollectionModal 
-                          
-                            setCollections={setCollections}
+  
+                        <div className='w-[55vw]'>
+                          <Searchbar 
+                            search={search}
+                            setSearch={setSearch}
                           />
-                        })
-                      }}
-                    
-                    >
-                        Add a new collection
-                    </button>
-                </div>
-              }
-          </div>
-        }  
-    </div>
-  )
+                        </div>
+                        
+                          <CollectionAndFavoutiteCollectionsNav 
+                            showUserCollections={showUserCollections}
+                            setShowUserCollections={setShowUserCollections}
+                          />
+                  
+            
+                          <UserDashboardCollections 
+                            filtredCollections={filtredCollections}
+                            search={search}
+                            setCollections={setCollections}
+                            collections={collections}
+                            favoriteCollections={favoriteCollections}
+                            showUserCollections={showUserCollections}
+                          />
+                  </div>
+                  
+                  :
+                  <div className='flex flex-col justify-center items-center m-[50px]'>
+                    <NotFound type="collections" />
+                    <button className='p-2 bg-indigo-500 transition duration-100 text-white w-fit m-auto my-4 rounded-sm hover:bg-indigo-600'
+                        onClick={() => {
+                          setModal({
+                            isOpen: true,
+                            element: <CreateCollectionModal 
+                            
+                              setCollections={setCollections}
+                            />
+                          })
+                        }}
+                      
+                      >
+                          Add a new collection
+                      </button>
+                  </div>
+                }
+            </div>
+          }  
+      </div>
+    )
+  } else {
+    setModal({
+      isOpen: true,
+      element: <Login />
+    })
+  }
 }
 
 export default Collections

@@ -26,6 +26,8 @@ import useAuthStore from '../../store/authStore'
 import { ILikes } from '../../types/ILikes'
 import { MdExpandMore, MdOutlineExpandLess } from 'react-icons/md'
 import CollectionErrorImage from '../../components/CollectionErrorImage'
+import Router, { useRouter } from 'next/router'
+import Login from '../login'
 interface IProps {
     data: ICollections | null
 }
@@ -41,7 +43,7 @@ function Collection({data}:IProps) {
     const {getSingleCollection} = useContext(collectionContext)
     const {setPopup} = useContext(popupContext)
     const [showInfo, setShowInfo] = useState<boolean>(false)
-
+    const router = useRouter()
 
 
     const fetchCollections = async () => {
@@ -93,12 +95,18 @@ function Collection({data}:IProps) {
     }, [])
 
 
+     
+    const [hasMounted, setHasMounted] = useState(false)
+    useEffect(() => {
+        setHasMounted(true)
+    }, [])
+    if(!hasMounted) {
+        return null
+    }
     
-    
- 
-
-  return (
-    <div className='flex flex-col m-6 justify-center md:m-14'>
+    if(user) {
+        return ( 
+            <div className='flex flex-col m-6 justify-center md:m-14'>
 
             {collection &&
                 <div className='flex flex-col p-2'>
@@ -205,8 +213,15 @@ function Collection({data}:IProps) {
             } 
       
     </div>
+        )
+    } else {
+        setModal({
+            isOpen: true,
+            element: <Login />
+        })
+    }
     
-  )
+  
 }
 
 export default Collection

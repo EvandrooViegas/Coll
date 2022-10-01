@@ -1,7 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 import React from 'react'
 import { HiOutlineCollection, HiOutlineHome, HiOutlineLogout } from 'react-icons/hi'
+import { MdLogout } from 'react-icons/md'
 import { RiCompass3Line } from 'react-icons/ri'
 import useAuthStore from '../../store/authStore'
 import ActiveLink from '../Links/ActiveLinkMd'
@@ -9,6 +12,7 @@ import Logo from '../Logo'
 
 function MdNav() {
     const {user, removeUser} = useAuthStore()
+    const router = useRouter()
   return (
     <div className='flex items-center justify-around w-[100vw] p-2 bg-white'>
             <Logo />
@@ -61,7 +65,14 @@ function MdNav() {
                         
                             <img className='rounded-full object-cover w-10 h-10' src={user.image} alt="profile" />
                 
-                       
+                            <div className='mt-1'>
+                            <button onClick={() => {
+                                router.push("/")
+                                removeUser()
+                            }}>
+                                <MdLogout />
+                            </button>
+                        </div>
                         </div> 
                     </Link>
                     : 
