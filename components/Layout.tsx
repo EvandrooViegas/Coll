@@ -60,7 +60,7 @@ function Layout({children, showNavbar}: IProps) {
   
       
         <div className={`z-[100] overflow-y-scroll overflow-x-hidden fixed top-0 bottom-0 right-0 left-0 
-        ${showNavbar ? "h-[93vh]" : "h-[100vh]"} md:${showNavbar ? "left-[13vw]" : "left-0"} 
+        ${showNavbar ? "h-[93vh]" : "h-[100vh]"} md:${showNavbar ? "left-[13vw]" : "left-0"}  md:${"ml-[13vw]"}
         md:h-screen`}>
           {children}
           <div>

@@ -199,12 +199,12 @@ function Login() {
 
             <div className='flex flex-col gap-2 cursor-pointer'>
  
-                 <div onClick={() => signIn("facebook")}>
+                 {/* <div onClick={() => signIn("facebook")}>
                     <div className='border-[1px] border-gray-200 p-2 rounded-lg flex items-center gap-2'> 
                         <span><BsFacebook style={{color: "blue"}} /></span>
                         <span>Facebook</span>
                     </div>
-                </div>
+                </div> */}
                 <div onClick={() => signIn("google")}>
                     <div className='border-[1px] border-gray-200 p-2 rounded-lg flex items-center gap-2'>
                         <span><FcGoogle /></span>
