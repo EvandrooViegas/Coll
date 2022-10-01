@@ -2,6 +2,7 @@
 
 
 module.exports = {
+
   async rewrites() {
     return [
       {
@@ -24,5 +25,7 @@ module.exports = {
     domains: ['lh3.googleusercontent.com', "localhost", "encrypted-tbn0.gstatic.com", "avatars.githubusercontent.com", "res.cloudinary.com", "cdn.sstatic.net", "http", "https"],
   
   },
-  
+  typescript: {
+    ignoreBuildErrors: true
+  }
 }
